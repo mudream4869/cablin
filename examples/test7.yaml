@@ -1,0 +1,21 @@
+- import: io
+
+- func:
+    name: main
+    body:
+      - if:
+          condition:
+            const:
+              type: bool
+              value: true
+          then:
+            - var:
+                type: int
+                name: b
+                default_value: 234
+
+      # should throw exception: b not found
+      - call:
+          name: io::print
+          params:
+            - get: b

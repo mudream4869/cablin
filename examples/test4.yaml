@@ -1,0 +1,24 @@
+- import: io
+
+- func:
+    name: myFunc
+    params:
+      - name: a
+        type: int
+    body:
+      - call:
+          name: io::print
+          params:
+            - get: a
+
+- func:
+    name: main
+    body:
+      # myFunc(10)
+      - call:
+          name: myFunc
+          params:
+            - const:
+                type: int
+                value: 10
+

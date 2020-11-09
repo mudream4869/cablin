@@ -1,0 +1,16 @@
+- import: test5
+
+- func:
+    name: main
+    body:
+      # var a = 10
+      - var:
+          type: int
+          name: a
+          default_value: 30
+
+      # test5::myFunc(a)
+      - call:
+          name: test5::myFunc
+          params:
+            - get: a

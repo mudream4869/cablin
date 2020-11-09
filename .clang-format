@@ -1,0 +1,9 @@
+BasedOnStyle: Google
+IndentWidth: 4
+AllowShortFunctionsOnASingleLine: None
+
+AccessModifierOffset: -4
+AlignTrailingComments: true
+MaxEmptyLinesToKeep: 2
+
+IndentCaseLabels: false

@@ -1,0 +1,41 @@
+- import: op
+- import: io
+
+- func:
+    name: main
+    body:
+      # var a = 10
+      - var:
+          type: int
+          name: a
+          default_value: 10
+
+      - while:
+          condition:
+            call:
+              name: op::greater
+              params:
+                - get: a
+                - const:
+                    type: int
+                    value: 1
+          body:
+            # print(a)
+            - call:
+                name: io::print
+                params:
+                  - get: a
+
+            # a = a - one
+            - assign:
+                target: a
+                source:
+                  call:
+                    name: op::minus
+                    params:
+                      - get: a
+                      - const:
+                          type: int
+                          value: 1
+
+            - break:

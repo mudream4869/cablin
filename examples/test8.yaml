@@ -1,0 +1,14 @@
+- import: io
+
+- func:
+    name: main
+    body:
+      - var:
+          type: string
+          name: a
+          default_value: 1哈哈1
+
+      - call:
+          name: io::print
+          params:
+            - get: a
