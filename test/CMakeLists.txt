@@ -8,6 +8,7 @@ include_directories(../include/)
 
 set(cablin_test_command_src
     "src/command/test_if.cpp"
+    "src/command/test_scope.cpp"
     "src/command/test_while.cpp"
     "src/command/test_var.cpp")
 
@@ -15,6 +16,7 @@ set(cablin_test_expr_src
     "src/expr/test_const.cpp")
 
 set(cablin_test_function_src
+    "src/function/test_functor.cpp"
     "src/function/test_node.cpp")
 
 add_executable(test
