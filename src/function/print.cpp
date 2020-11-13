@@ -33,7 +33,7 @@ public:
     }
 
     mccore::Value execute(mccore::Controller* controller,
-                          std::vector<mccore::Value> params) {
+                          mccore::ValueList params) {
         for (const auto& param : params) {
             switch (param.type()) {
             case mccore::ValueType::BOOL:
@@ -73,7 +73,7 @@ const std::string& FunctionPrint::getName() const {
 }
 
 mccore::Value FunctionPrint::execute(mccore::Controller* controller,
-                                     std::vector<mccore::Value> params) {
+                                     mccore::ValueList params) {
     return impl_->execute(controller, params);
 }
 

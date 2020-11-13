@@ -47,9 +47,8 @@ public:
         return name_;
     }
 
-    mukyu::cablin::core::Value execute(
-        mukyu::cablin::core::Controller* controller,
-        std::vector<mukyu::cablin::core::Value> params) {
+    mukyu::cablin::core::Value execute(mukyu::cablin::core::Controller*,
+                                       mukyu::cablin::core::ValueList params) {
         if (params.size() != 1) {
             throw std::runtime_error("FunctionUnaryOperator<" + name_ +
                                      ">::execute: |params| should be 1");

@@ -14,6 +14,8 @@ namespace core {
 
 class Controller;
 
+using ValueList = std::vector<Value>;
+
 class Function {
 public:
     Function() = default;
@@ -21,8 +23,7 @@ public:
 
     virtual const std::string& getName() const = 0;
 
-    virtual Value execute(Controller* controller,
-                          std::vector<Value> params) = 0;
+    virtual Value execute(Controller* controller, ValueList params) = 0;
 };
 
 

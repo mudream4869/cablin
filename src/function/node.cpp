@@ -57,7 +57,7 @@ public:
     }
 
     mccore::Value execute(mccore::Controller* controller,
-                          std::vector<mccore::Value> params) {
+                          mccore::ValueList params) {
         if (params.size() != params_.size()) {
             throw std::runtime_error(
                 "FunctionNode::Impl: number of parameters not equal");
@@ -109,7 +109,7 @@ const std::string& FunctionNode::getName() const {
 }
 
 mccore::Value FunctionNode::execute(mccore::Controller* controller,
-                                    std::vector<mccore::Value> params) {
+                                    mccore::ValueList params) {
     return impl_->execute(controller, params);
 }
 

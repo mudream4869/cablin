@@ -26,7 +26,7 @@ public:
 
     mukyu::cablin::core::Value execute(
         mukyu::cablin::core::Controller* controller,
-        std::vector<mukyu::cablin::core::Value> params);
+        mukyu::cablin::core::ValueList params);
 
 private:
     class Impl;
