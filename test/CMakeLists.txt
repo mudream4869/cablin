@@ -4,6 +4,7 @@ enable_testing()
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
+
 include_directories(../include/)
 
 set(cablin_test_command_src

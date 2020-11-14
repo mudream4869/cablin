@@ -48,5 +48,12 @@ add_library(cablin
 target_link_libraries(cablin
                       ${YAML_CPP_LIBRARIES})
 
-add_subdirectory(cablin)
+# ----------
+# Interpreter
+
+add_subdirectory(interpreter)
+
+# ----------
+# Unit Test
+
 add_subdirectory(test)

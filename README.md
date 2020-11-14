@@ -11,6 +11,6 @@ cd build
 cmake ..
 
 # Execute examples
-cd cablin
-./cabl ../../examples/test.yaml
+cd interpreter
+./interpreter ../../examples/test.yaml
 ```
