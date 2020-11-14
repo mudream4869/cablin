@@ -28,15 +28,13 @@ class CablinRuntimeException : public std::runtime_error {
 public:
     CablinRuntimeException(const std::string& msg) : std::runtime_error(msg) {
     }
-    ~CablinRuntimeException() = default;
 };
 
 class CablinIdentifierNotFoundException : public std::out_of_range {
 public:
-    CablinIdentifierNotFoundException(const std::string& msg)
+    explicit CablinIdentifierNotFoundException(const std::string& msg)
         : std::out_of_range(msg) {
     }
-    ~CablinIdentifierNotFoundException() = default;
 };
 
 inline CablinParsingException makeParsingException(const std::string& msg,
