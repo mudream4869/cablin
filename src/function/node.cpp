@@ -6,6 +6,7 @@
 #include <mukyu/cablin/core/command.hpp>
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/core/value.hpp>
+#include <mukyu/cablin/core/error.hpp>
 
 #include <memory>
 #include <string>
@@ -59,14 +60,14 @@ public:
     mccore::Value execute(mccore::Controller* controller,
                           mccore::ValueList params) {
         if (params.size() != params_.size()) {
-            throw std::runtime_error(
+            throw mccore::CablinRuntimeException(
                 "FunctionNode::Impl: number of parameters not equal");
         }
 
         for (size_t i = 0; i < params_.size(); ++i) {
             const auto& p = params_[i];
             if (p.type != params[i].type()) {
-                throw std::runtime_error(
+                throw mccore::CablinRuntimeException(
                     "FunctionNode::Impl: " + std::to_string(i) +
                     "parameters type not equal");
             }
@@ -81,7 +82,7 @@ public:
         } catch (const mccmd::ReturnException& rex) {
             return rex.returnValue;
         } catch (mccmd::LoopFlowControlException) {
-            throw std::runtime_error(
+            throw mccore::CablinRuntimeException(
                 "FunctionNode::Impl: catch loop flow control");
         }
 

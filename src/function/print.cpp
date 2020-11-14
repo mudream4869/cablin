@@ -1,5 +1,7 @@
 #include <mukyu/cablin/function/print.hpp>
 
+#include <mukyu/cablin/core/error.hpp>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -53,7 +55,7 @@ public:
                 std::cout << "none\n";
                 break;
             default:
-                throw std::runtime_error(
+                throw mccore::CablinRuntimeException(
                     "Impl::execute: " +
                     mccore::VALUETYPE_STR_MAP.at(param.type()) +
                     "type not support");

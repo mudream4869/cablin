@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+#include <mukyu/cablin/core/error.hpp>
+
 
 namespace mukyu {
 namespace cablin {
@@ -76,7 +78,7 @@ private:
 template <>
 inline int Value::as() const {
     if (type_ != ValueType::INT) {
-        throw std::runtime_error("Value::as: type is not int");
+        throw CablinRuntimeException("Value::as: type is not int");
     }
     return iv_;
 }
@@ -84,7 +86,7 @@ inline int Value::as() const {
 template <>
 inline int64_t Value::as() const {
     if (type_ != ValueType::INT64) {
-        throw std::runtime_error("Value::as: type is not int64");
+        throw CablinRuntimeException("Value::as: type is not int64");
     }
     return i64v_;
 }
@@ -92,7 +94,7 @@ inline int64_t Value::as() const {
 template <>
 inline float Value::as() const {
     if (type_ != ValueType::FLOAT) {
-        throw std::runtime_error("Value::as: type is not float");
+        throw CablinRuntimeException("Value::as: type is not float");
     }
     return fv_;
 }
@@ -100,7 +102,7 @@ inline float Value::as() const {
 template <>
 inline bool Value::as() const {
     if (type_ != ValueType::BOOL) {
-        throw std::runtime_error("Value::as: type is not bool");
+        throw CablinRuntimeException("Value::as: type is not bool");
     }
     return bv_;
 }
@@ -108,7 +110,7 @@ inline bool Value::as() const {
 template <>
 inline std::string Value::as() const {
     if (type_ != ValueType::STRING) {
-        throw std::runtime_error("Value::as: type is not string");
+        throw CablinRuntimeException("Value::as: type is not string");
     }
     return strv_;
 }
@@ -123,7 +125,7 @@ inline Value Value::cast<int>() const {
     case ValueType::FLOAT:
         return static_cast<int>(this->fv_);
     default:
-        throw std::runtime_error("Value::cast<int>: type is not numerical");
+        throw CablinRuntimeException("Value::cast<int>: type is not numerical");
     }
 }
 
@@ -137,7 +139,8 @@ inline Value Value::cast<int64_t>() const {
     case ValueType::FLOAT:
         return static_cast<int64_t>(this->fv_);
     default:
-        throw std::runtime_error("Value::cast<int64_t>: type is not numerical");
+        throw CablinRuntimeException(
+            "Value::cast<int64_t>: type is not numerical");
     }
 }
 
@@ -151,7 +154,8 @@ inline Value Value::cast<float>() const {
     case ValueType::FLOAT:
         return *this;
     default:
-        throw std::runtime_error("Value::cast<float>: type is not numerical");
+        throw CablinRuntimeException(
+            "Value::cast<float>: type is not numerical");
     }
 }
 

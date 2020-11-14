@@ -1,5 +1,7 @@
 #include <mukyu/cablin/core/controller.hpp>
 
+#include <mukyu/cablin/core/error.hpp>
+
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/common/defer.hpp>
 
@@ -16,6 +18,7 @@ namespace core {
 
 namespace {
 
+
 using VariableMap = std::unordered_map<std::string, Value>;
 using FunctionMap = std::unordered_map<std::string, std::shared_ptr<Function>>;
 
@@ -26,8 +29,8 @@ public:
 
     void addVar(const std::string& name, const Value& value) {
         if (globalVars_.find(name) != globalVars_.end()) {
-            throw std::runtime_error("PackageController::addVar: " + name +
-                                     " redefine found");
+            throw CablinRuntimeException("PackageController::addVar: " + name +
+                                         " redefine found");
         }
 
         globalVars_[name] = value;
@@ -36,12 +39,12 @@ public:
     void setVar(const std::string& name, const Value& value) {
         auto varIt = globalVars_.find(name);
         if (varIt == globalVars_.end()) {
-            throw std::out_of_range("PackageController::setVar: " + name +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "PackageController::setVar: " + name + " not found");
         }
 
         if (varIt->second.type() != value.type()) {
-            throw std::runtime_error(
+            throw CablinRuntimeException(
                 "PackageController::setVar: type not equal");
         }
 
@@ -50,8 +53,8 @@ public:
 
     const Value& getVar(const std::string& name) const {
         if (globalVars_.find(name) == globalVars_.end()) {
-            throw std::out_of_range("PackageController::getVar: " + name +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "PackageController::getVar: " + name + " not found");
         }
 
         return globalVars_.at(name);
@@ -60,8 +63,8 @@ public:
     void addFunction(std::shared_ptr<Function> function) {
         const auto& name = function->getName();
         if (funcs_.find(name) != funcs_.end()) {
-            throw std::runtime_error("PackageController::addFunction: " + name +
-                                     " redefine found");
+            throw CablinRuntimeException(
+                "PackageController::addFunction: " + name + " redefine found");
         }
 
         funcs_[name] = std::move(function);
@@ -71,8 +74,8 @@ public:
                        std::vector<Value> params) {
         const auto& node = funcs_.find(name);
         if (node == funcs_.end()) {
-            throw std::out_of_range("PackageController::callFunction: " + name +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "PackageController::callFunction: " + name + " not found");
         }
 
         return node->second->execute(controller, params);
@@ -99,7 +102,7 @@ public:
         auto& vars = funcStack_.top().back();
 
         if (vars.find(name) != vars.end()) {
-            throw std::runtime_error(
+            throw CablinRuntimeException(
                 "LocalVariableController::addVar: " + name + " redefine found");
         }
 
@@ -116,7 +119,7 @@ public:
             }
 
             if (varIt->second.type() != value.type()) {
-                throw std::runtime_error(
+                throw CablinRuntimeException(
                     "LocalVariableController::setVar: type not equal");
             }
 
@@ -124,8 +127,8 @@ public:
             return;
         }
 
-        throw std::out_of_range("LocalVariableController::setVar: " + name +
-                                " not found");
+        throw CablinIdentifierNotFoundException(
+            "LocalVariableController::setVar: " + name + " not found");
     }
 
     const Value& getVar(const std::string& name) const {
@@ -137,8 +140,8 @@ public:
             }
         }
 
-        throw std::out_of_range("LocalVariableController::getVar: " + name +
-                                " not found");
+        throw CablinIdentifierNotFoundException(
+            "LocalVariableController::getVar: " + name + " not found");
     }
 
     void pushFunctionBlock() {
@@ -172,8 +175,8 @@ public:
 
     void addPackage(const std::string& package) {
         if (packages.find(package) != packages.end()) {
-            throw std::runtime_error("Impl::addPackage: package " + package +
-                                     " redefine");
+            throw CablinRuntimeException("Impl::addPackage: package " +
+                                         package + " redefine");
         }
         packages[package] = {};
     }
@@ -181,8 +184,8 @@ public:
     void addPackageVar(const std::string& package, const std::string& name,
                        const Value& value) {
         if (packages.find(package) == packages.end()) {
-            throw std::out_of_range("Impl::addPackageVar: package " + package +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "Impl::addPackageVar: package " + package + " not found");
         }
         packages.at(package).addVar(name, value);
     }
@@ -190,8 +193,8 @@ public:
     void setPackageVar(const std::string& package, const std::string& name,
                        const Value& value) {
         if (packages.find(package) == packages.end()) {
-            throw std::out_of_range("Impl::setPackageVar: package " + package +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "Impl::setPackageVar: package " + package + " not found");
         }
         packages.at(package).setVar(name, value);
     }
@@ -199,8 +202,8 @@ public:
     const Value& getPackageVar(const std::string& package,
                                const std::string& name) {
         if (packages.find(package) == packages.end()) {
-            throw std::out_of_range("Impl::getPackageVar: package " + package +
-                                    " not found");
+            throw CablinIdentifierNotFoundException(
+                "Impl::getPackageVar: package " + package + " not found");
         }
         return packages.at(package).getVar(name);
     }

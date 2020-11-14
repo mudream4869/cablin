@@ -9,6 +9,8 @@
 #include <mukyu/cablin/command/var.hpp>
 #include <mukyu/cablin/command/while.hpp>
 
+#include <mukyu/cablin/core/error.hpp>
+
 #include <mukyu/cablin/common/yamlutil.hpp>
 
 #include <stdexcept>
@@ -29,7 +31,8 @@ mccore::CommandPtr createCommand(const std::string& package,
                                  const YAML::Node& node) {
     auto key = mccommon::getSingleKey(node);
     if (!key) {
-        throw std::runtime_error("createCommand: node must be single-key-map");
+        throw mccore::makeParsingException(
+            "createCommand: node must be single-key-map", node.Mark());
     }
 
     const auto& nodeValue = node[key.value()];
@@ -54,8 +57,8 @@ mccore::CommandPtr createCommand(const std::string& package,
         return std::make_unique<CommandReturn>(package, nodeValue);
     }
 
-    throw std::runtime_error("createCommand: cannot specify command: " +
-                             key.value());
+    throw mccore::makeParsingException(
+        "createCommand: cannot specify command: " + key.value(), node.Mark());
 }
 
 std::vector<mccore::CommandPtr> createCommandList(const std::string& package,

@@ -3,6 +3,7 @@
 #include <mukyu/cablin/core/controller.hpp>
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/core/value.hpp>
+#include <mukyu/cablin/core/error.hpp>
 
 #include <functional>
 #include <iostream>
@@ -85,8 +86,9 @@ public:
     mukyu::cablin::core::Value execute(mukyu::cablin::core::Controller*,
                                        mukyu::cablin::core::ValueList params) {
         if (params.size() != 2) {
-            throw std::runtime_error("FunctionBinaryOperator<" + name_ +
-                                     ">::execute: |params| should be 2");
+            throw mukyu::cablin::core::CablinRuntimeException(
+                "FunctionBinaryOperator<" + name_ +
+                ">::execute: |params| should be 2");
         }
 
         return func_(params[0], params[1]);

@@ -2,6 +2,8 @@
 
 #include <mukyu/cablin/common/yamlutil.hpp>
 
+#include <mukyu/cablin/core/error.hpp>
+
 #include <mukyu/cablin/expr/const.hpp>
 #include <mukyu/cablin/expr/getvar.hpp>
 #include <mukyu/cablin/expr/call.hpp>
@@ -23,7 +25,8 @@ mccore::ExprPtr createExpr(const std::string& package, const YAML::Node& node) {
         if (node.IsMap() && node.size() == 0) {
             return std::make_unique<mcexpr::ExprConst>();
         }
-        throw std::runtime_error("createExpr: should be single-key-map");
+        throw mccore::makeParsingException(
+            "createExpr: should be single-key-map", node.Mark());
     }
 
     const auto& obj = node[key.value()];
@@ -36,8 +39,8 @@ mccore::ExprPtr createExpr(const std::string& package, const YAML::Node& node) {
         return std::make_unique<mcexpr::ExprCall>(package, obj);
     }
 
-    throw std::runtime_error("createExpr: " + key.value() +
-                             " is not an expr type");
+    throw mccore::makeParsingException(
+        "createExpr: " + key.value() + " is not an expr type", node.Mark());
 }
 
 

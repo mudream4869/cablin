@@ -1,6 +1,7 @@
 #include <mukyu/cablin/package/userdefine.hpp>
 
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/error.hpp>
 
 #include <mukyu/cablin/command/globalvar.hpp>
 
@@ -28,14 +29,15 @@ public:
         auto root = YAML::LoadFile(filename);
 
         if (!root.IsSequence()) {
-            throw std::runtime_error("Impl::Impl: should be a list");
+            throw mccore::makeParsingException("Impl::Impl: should be a list",
+                                               root.Mark());
         }
 
         for (const auto& it : root) {
             auto key = mccommon::getSingleKey(it);
             if (!key) {
-                throw std::runtime_error(
-                    "Impl::Impl: node must be single-key-map");
+                throw mccore::makeParsingException(
+                    "Impl::Impl: node must be single-key-map", it.Mark());
             }
 
             const auto& obj = it[key.value()];
@@ -49,8 +51,10 @@ public:
             } else if (key == "import") {
                 usedPackages_.push_back(obj.as<std::string>());
             } else {
-                throw std::runtime_error("Impl::Impl: " + key.value() +
-                                         "not match any pacakge command");
+                throw mccore::makeParsingException(
+                    "Impl::Impl: " + key.value() +
+                        "not match any pacakge command",
+                    it.Mark());
             }
         }
     }

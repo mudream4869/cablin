@@ -2,6 +2,7 @@
 
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/core/value.hpp>
+#include <mukyu/cablin/core/error.hpp>
 
 #include <memory>
 #include <string>
@@ -25,7 +26,8 @@ public:
     mukyu::cablin::core::Value execute(mukyu::cablin::core::Controller*,
                                        mukyu::cablin::core::ValueList params) {
         if (params.size() != 1) {
-            throw std::runtime_error("FunctionInt: params size should be 1");
+            throw mukyu::cablin::core::CablinRuntimeException(
+                "FunctionInt: params size should be 1");
         }
         return params[0].cast<int>();
     }
@@ -46,7 +48,8 @@ public:
     mukyu::cablin::core::Value execute(mukyu::cablin::core::Controller*,
                                        mukyu::cablin::core::ValueList params) {
         if (params.size() != 1) {
-            throw std::runtime_error("FunctionInt64: params size should be 1");
+            throw mukyu::cablin::core::CablinRuntimeException(
+                "FunctionInt64: params size should be 1");
         }
         return params[0].cast<int64_t>();
     }
@@ -67,7 +70,8 @@ public:
     mukyu::cablin::core::Value execute(mukyu::cablin::core::Controller*,
                                        mukyu::cablin::core::ValueList params) {
         if (params.size() != 1) {
-            throw std::runtime_error("FunctionFloat: params size should be 1");
+            throw mukyu::cablin::core::CablinRuntimeException(
+                "FunctionFloat: params size should be 1");
         }
         return params[0].cast<float>();
     }
