@@ -1,4 +1,4 @@
-#include <mukyu/cablin/package/builtin_op.hpp>
+#include <mukyu/cablin/package/builtin_cast.hpp>
 
 #include <mukyu/cablin/core/controller.hpp>
 
@@ -14,7 +14,7 @@ namespace mccore = mukyu::cablin::core;
 namespace mcfunc = mukyu::cablin::function;
 
 
-class BuiltinOperatorPackage::Impl {
+class BuiltinCastPackage::Impl {
 public:
     Impl() {
         func_ = {
@@ -35,18 +35,17 @@ public:
     }
 
 private:
-    const std::string name_ = BUILTIN_OP_NAME;
+    const std::string name_ = BUILTIN_CAST_NAME;
     std::vector<std::shared_ptr<mccore::Function>> func_;
 };
 
 
-BuiltinOperatorPackage::BuiltinOperatorPackage()
-    : impl_(std::make_unique<Impl>()) {
+BuiltinCastPackage::BuiltinCastPackage() : impl_(std::make_unique<Impl>()) {
 }
 
-BuiltinOperatorPackage::~BuiltinOperatorPackage() = default;
+BuiltinCastPackage::~BuiltinCastPackage() = default;
 
-void BuiltinOperatorPackage::prepare(mccore::Controller* controller) {
+void BuiltinCastPackage::prepare(mccore::Controller* controller) {
     impl_->prepare(controller);
 }
 

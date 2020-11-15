@@ -2,9 +2,9 @@
 
 #include <mukyu/cablin/core/controller.hpp>
 
-#include <mukyu/cablin/package/builtin_io.hpp>
-#include <mukyu/cablin/package/builtin_op.hpp>
+#include <mukyu/cablin/package/factory.hpp>
 #include <mukyu/cablin/package/userdefine.hpp>
+
 
 #include <vector>
 #include <queue>
@@ -27,6 +27,7 @@ class Script::Impl {
 public:
     Impl(const std::string& filename) {
         // BFS all used packages
+
         packageMap_.emplace(MAINPACKAGE, std::make_shared<mcpkg::UserPackage>(
                                              MAINPACKAGE, filename));
         auto& mainPackage = packageMap_.at(MAINPACKAGE);
@@ -47,18 +48,7 @@ public:
                 continue;
             }
 
-            if (pName == mcpkg::BUILTIN_IO_NAME) {
-                packageMap_.emplace(
-                    pName, std::make_shared<mcpkg::BuiltinIOPackage>());
-            } else if (pName == mcpkg::BUILTIN_OP_NAME) {
-                packageMap_.emplace(
-                    pName, std::make_shared<mcpkg::BuiltinOperatorPackage>());
-            } else {
-                auto fullPath = (mainDir / (pName + YAML_FILEEXT)).string();
-                packageMap_.emplace(pName, std::make_shared<mcpkg::UserPackage>(
-                                               pName, fullPath));
-            }
-
+            packageMap_.emplace(pName, mcpkg::createPackage(pName, mainDir));
 
             auto& p = packageMap_.at(pName);
 

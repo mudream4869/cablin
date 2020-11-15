@@ -8,7 +8,7 @@ namespace cablin {
 namespace package {
 
 
-const std::string BUILTIN_OP_NAME = "cast";
+const std::string BUILTIN_CAST_NAME = "cast";
 
 class BuiltinCastPackage : public mukyu::cablin::core::Package {
 public:

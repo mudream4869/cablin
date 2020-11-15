@@ -2,7 +2,7 @@
 
 #include <string>
 #include <vector>
-
+#include <memory>
 
 namespace mukyu {
 namespace cablin {
@@ -24,6 +24,8 @@ public:
         return {};
     };
 };
+
+using PackagePtr = std::shared_ptr<Package>;
 
 
 }  // namespace core
