@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mukyu/cablin/core/value.hpp>
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -15,7 +17,9 @@ public:
     Script(const std::string& filename);
     ~Script();
 
-    int execute(const std::vector<std::string>& argv);
+    int main(const std::vector<std::string>& argv);
+
+    Value callFunction(const std::string& name, std::vector<Value> params);
 
 private:
     class Impl;

@@ -61,7 +61,7 @@ public:
 
     ~Impl() = default;
 
-    int execute(const std::vector<std::string>& argv) {
+    int main(const std::vector<std::string>& argv) {
         // default return 0 in only main function
         auto exitCode =
             controller.callFunction(MAINPACKAGE, MAINFUNCTION_NAME, {});
@@ -71,6 +71,10 @@ public:
         }
 
         return 0;
+    }
+
+    Value callFunction(const std::string& name, std::vector<Value> params) {
+        return controller.callFunction(MAINPACKAGE, name, params);
     }
 
 private:
@@ -84,8 +88,12 @@ Script::Script(const std::string& filename)
 
 Script::~Script() = default;
 
-int Script::execute(const std::vector<std::string>& argv) {
-    return impl_->execute(argv);
+int Script::main(const std::vector<std::string>& argv) {
+    return impl_->main(argv);
+}
+
+Value Script::callFunction(const std::string& name, std::vector<Value> argv) {
+    return impl_->callFunction(name, argv);
 }
 
 

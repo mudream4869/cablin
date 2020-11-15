@@ -10,7 +10,7 @@ namespace mccore = mukyu::cablin::core;
 int main(int argc, char** argv) {
     try {
         mccore::Script script(argv[1]);
-        return script.execute({});
+        return script.main({});
     } catch (const mccore::CablinParsingException& ex) {
         std::cerr << ex.what() << std::endl;
         std::cerr << "Line: " << ex.line << ", Column: " << ex.column

@@ -1,0 +1,11 @@
+- import: io
+
+- func:
+    name: hello_world
+    body:
+      - call:
+          name: io::print
+          params:
+            - const:
+                type: string
+                value: Hello world!

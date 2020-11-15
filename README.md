@@ -10,7 +10,9 @@ mkdir build
 cd build
 cmake ..
 
-# Execute examples
-cd interpreter
-./interpreter ../../examples/test.yaml
+# Execute interpreter
+interpreter/interpreter ../cablin_examples/test.yaml
+
+# Execute example
+example/example ../example/example.yaml
 ```

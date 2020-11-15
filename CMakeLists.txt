@@ -55,6 +55,11 @@ target_link_libraries(cablin
 add_subdirectory(interpreter)
 
 # ----------
+# Example
+
+add_subdirectory(example)
+
+# ----------
 # Unit Test
 
 add_subdirectory(test)
