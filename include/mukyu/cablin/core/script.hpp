@@ -10,10 +10,10 @@ namespace cablin {
 namespace core {
 
 
-class Program final {
+class Script final {
 public:
-    Program(const std::string& filename);
-    ~Program();
+    Script(const std::string& filename);
+    ~Script();
 
     int execute(const std::vector<std::string>& argv);
 

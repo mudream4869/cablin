@@ -11,7 +11,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 set(cablin_core_src
     src/core/controller.cpp
-    "src/core/program.cpp")
+    "src/core/script.cpp")
 
 set(cablin_command_src
     "src/command/factory.cpp"

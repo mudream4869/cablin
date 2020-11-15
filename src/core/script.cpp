@@ -1,4 +1,4 @@
-#include <mukyu/cablin/core/program.hpp>
+#include <mukyu/cablin/core/script.hpp>
 
 #include <mukyu/cablin/core/controller.hpp>
 
@@ -23,7 +23,7 @@ const std::string MAINPACKAGE = "main";
 const std::string MAINFUNCTION_NAME = "main";
 const std::string YAML_FILEEXT = ".yaml";
 
-class Program::Impl {
+class Script::Impl {
 public:
     Impl(const std::string& filename) {
         // BFS all used packages
@@ -88,13 +88,13 @@ private:
     std::unordered_map<std::string, std::shared_ptr<Package>> packageMap_;
 };
 
-Program::Program(const std::string& filename)
+Script::Script(const std::string& filename)
     : impl_(std::make_unique<Impl>(filename)) {
 }
 
-Program::~Program() = default;
+Script::~Script() = default;
 
-int Program::execute(const std::vector<std::string>& argv) {
+int Script::execute(const std::vector<std::string>& argv) {
     return impl_->execute(argv);
 }
 

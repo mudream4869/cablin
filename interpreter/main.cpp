@@ -1,4 +1,4 @@
-#include <mukyu/cablin/core/program.hpp>
+#include <mukyu/cablin/core/script.hpp>
 
 #include <mukyu/cablin/core/error.hpp>
 
@@ -9,8 +9,8 @@ namespace mccore = mukyu::cablin::core;
 
 int main(int argc, char** argv) {
     try {
-        mccore::Program prog(argv[1]);
-        return prog.execute({});
+        mccore::Script script(argv[1]);
+        return script.execute({});
     } catch (const mccore::CablinParsingException& ex) {
         std::cerr << ex.what() << std::endl;
         std::cerr << "Line: " << ex.line << ", Column: " << ex.column
