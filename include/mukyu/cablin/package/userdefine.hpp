@@ -2,6 +2,8 @@
 
 #include <mukyu/cablin/core/package.hpp>
 
+#include <yaml-cpp/yaml.h>
+
 #include <memory>
 
 
@@ -13,6 +15,9 @@ namespace package {
 class UserPackage : public mukyu::cablin::core::Package {
 public:
     UserPackage(const std::string& name, const std::string& filename);
+
+    UserPackage(const std::string& name, const YAML::Node& root);
+
     ~UserPackage();
 
     void prepare(mukyu::cablin::core::Controller* controller);

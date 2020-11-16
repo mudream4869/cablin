@@ -25,38 +25,17 @@ const std::string YAML_FILEEXT = ".yaml";
 
 class Script::Impl {
 public:
+    Impl(const YAML::Node& root) {
+        auto mainPkg = std::make_shared<mcpkg::UserPackage>(MAINPACKAGE, root);
+        loadMainPackage(std::move(mainPkg), "");
+    }
+
     Impl(const std::string& filename) {
         // BFS all used packages
-
-        packageMap_.emplace(MAINPACKAGE, std::make_shared<mcpkg::UserPackage>(
-                                             MAINPACKAGE, filename));
-        auto& mainPackage = packageMap_.at(MAINPACKAGE);
-        mainPackage->prepare(&controller);
-
-        std::queue<std::string> toLoad;
-        for (const auto& pName : mainPackage->usePackages()) {
-            toLoad.push(pName);
-        }
-
+        auto mainPkg =
+            std::make_shared<mcpkg::UserPackage>(MAINPACKAGE, filename);
         auto mainDir = std::filesystem::path(filename).parent_path();
-
-        while (!toLoad.empty()) {
-            auto pName = toLoad.front();
-            toLoad.pop();
-
-            if (packageMap_.find(pName) != packageMap_.end()) {
-                continue;
-            }
-
-            packageMap_.emplace(pName, mcpkg::createPackage(pName, mainDir));
-
-            auto& p = packageMap_.at(pName);
-
-            p->prepare(&controller);
-            for (const auto& opName : p->usePackages()) {
-                toLoad.push(opName);
-            }
-        }
+        loadMainPackage(std::move(mainPkg), mainDir);
     }
 
     ~Impl() = default;
@@ -78,12 +57,47 @@ public:
     }
 
 private:
+    void loadMainPackage(PackagePtr mainPackage,
+                         const std::string& mainDirStr) {
+        packageMap_.emplace(MAINPACKAGE, mainPackage);
+        mainPackage->prepare(&controller);
+
+        std::queue<std::string> toLoad;
+        for (const auto& pName : mainPackage->usePackages()) {
+            toLoad.push(pName);
+        }
+
+        auto mainDir = std::filesystem::path(mainDirStr);
+
+        while (!toLoad.empty()) {
+            auto pName = toLoad.front();
+            toLoad.pop();
+
+            if (packageMap_.find(pName) != packageMap_.end()) {
+                continue;
+            }
+
+            packageMap_.emplace(pName, mcpkg::createPackage(pName, mainDir));
+
+            auto& p = packageMap_.at(pName);
+
+            p->prepare(&controller);
+            for (const auto& opName : p->usePackages()) {
+                toLoad.push(opName);
+            }
+        }
+    }
+
+private:
     Controller controller;
     std::unordered_map<std::string, std::shared_ptr<Package>> packageMap_;
 };
 
 Script::Script(const std::string& filename)
     : impl_(std::make_unique<Impl>(filename)) {
+}
+
+Script::Script(const YAML::Node& root) : impl_(std::make_unique<Impl>(root)) {
 }
 
 Script::~Script() = default;
