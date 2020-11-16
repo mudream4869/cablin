@@ -25,6 +25,21 @@ const std::string YAML_FILEEXT = ".yaml";
 
 class Script::Impl {
 public:
+    Impl(const YAML::Node& root, PackagePtrMap packages)
+        : prePackageMap_(std::move(packages)) {
+        auto mainPkg = std::make_shared<mcpkg::UserPackage>(MAINPACKAGE, root);
+        loadMainPackage(std::move(mainPkg), "");
+    }
+
+    Impl(const std::string& filename, PackagePtrMap packages)
+        : prePackageMap_(std::move(packages)) {
+        // BFS all used packages
+        auto mainPkg =
+            std::make_shared<mcpkg::UserPackage>(MAINPACKAGE, filename);
+        auto mainDir = std::filesystem::path(filename).parent_path();
+        loadMainPackage(std::move(mainPkg), mainDir);
+    }
+
     Impl(const YAML::Node& root) {
         auto mainPkg = std::make_shared<mcpkg::UserPackage>(MAINPACKAGE, root);
         loadMainPackage(std::move(mainPkg), "");
@@ -43,7 +58,7 @@ public:
     int main(const std::vector<std::string>& argv) {
         // default return 0 in only main function
         auto exitCode =
-            controller.callFunction(MAINPACKAGE, MAINFUNCTION_NAME, {});
+            controller_.callFunction(MAINPACKAGE, MAINFUNCTION_NAME, {});
 
         if (exitCode.type() == ValueType::INT) {
             return exitCode.as<int>();
@@ -53,14 +68,14 @@ public:
     }
 
     Value callFunction(const std::string& name, std::vector<Value> params) {
-        return controller.callFunction(MAINPACKAGE, name, params);
+        return controller_.callFunction(MAINPACKAGE, name, params);
     }
 
 private:
     void loadMainPackage(PackagePtr mainPackage,
                          const std::string& mainDirStr) {
         packageMap_.emplace(MAINPACKAGE, mainPackage);
-        mainPackage->prepare(&controller);
+        mainPackage->prepare(&controller_);
 
         std::queue<std::string> toLoad;
         for (const auto& pName : mainPackage->usePackages()) {
@@ -77,11 +92,19 @@ private:
                 continue;
             }
 
-            packageMap_.emplace(pName, mcpkg::createPackage(pName, mainDir));
+            PackagePtr newPkg;
+
+            if (prePackageMap_.find(pName) != prePackageMap_.end()) {
+                newPkg = prePackageMap_.at(pName);
+            } else {
+                newPkg = mcpkg::createPackage(pName, mainDir);
+            }
+
+            packageMap_.emplace(pName, std::move(newPkg));
 
             auto& p = packageMap_.at(pName);
 
-            p->prepare(&controller);
+            p->prepare(&controller_);
             for (const auto& opName : p->usePackages()) {
                 toLoad.push(opName);
             }
@@ -89,15 +112,24 @@ private:
     }
 
 private:
-    Controller controller;
-    std::unordered_map<std::string, std::shared_ptr<Package>> packageMap_;
+    Controller controller_;
+    PackagePtrMap prePackageMap_;
+    PackagePtrMap packageMap_;
 };
 
 Script::Script(const std::string& filename)
     : impl_(std::make_unique<Impl>(filename)) {
 }
 
+Script::Script(const std::string& filename, PackagePtrMap packages)
+    : impl_(std::make_unique<Impl>(filename, packages)) {
+}
+
 Script::Script(const YAML::Node& root) : impl_(std::make_unique<Impl>(root)) {
+}
+
+Script::Script(const YAML::Node& root, PackagePtrMap packages)
+    : impl_(std::make_unique<Impl>(root, packages)) {
 }
 
 Script::~Script() = default;
