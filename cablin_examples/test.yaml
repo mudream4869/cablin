@@ -1,0 +1,66 @@
+- import: op
+- import: io
+
+- func:
+    name: main
+    body:
+      # var a = 1
+      - var:
+          type: int
+          name: a
+          default_value: 1
+
+      # var b = 2
+      - var:
+          type: int
+          name: b
+          default_value: 2
+
+      # print(a)
+      - call:
+          name: io::print
+          params:
+            - get: a
+
+      # print(b)
+      - call:
+          name: io::print
+          params:
+            - get: b
+
+      # var c
+      - var:
+          type: bool
+          name: c
+          default_value: false
+
+      # a = a + b
+      - assign:
+          target: a
+          source:
+            # should be command:call
+            call:
+              name: op::plus
+              params:
+                - get: a
+                - get: b
+
+      # print(a)
+      - call:
+          name: io::print
+          params:
+            - get: a
+
+      - if:
+          condition:
+            get: c
+          then:
+            - call:
+                name: io::print
+                params:
+                  - get: a
+          else:
+            - call:
+                name: io::print
+                params:
+                  - get: b

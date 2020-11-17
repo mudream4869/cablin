@@ -1,0 +1,33 @@
+- import: io
+
+- func:
+    name: myFunc
+    body:
+      - var:
+          name: a
+          type: int
+          default_value: 50
+
+      - return:
+          get: a
+
+- func:
+    name: main
+    body:
+      # var a = 10
+      - var:
+          type: int
+          name: a
+          default_value: 10
+
+      # myFunc(a)
+      - assign:
+          target: a
+          source:
+            call:
+              name: myFunc
+
+      - call:
+          name: io::print
+          params:
+            - get: a
