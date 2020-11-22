@@ -1,7 +1,8 @@
-# Cablin README
+# Cablin
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+![Cablin Logo](cablin.png)
 
 A Cablin interpreter written in c-plus-plus.
 
@@ -113,3 +114,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 ```
+
+## Credits
+
+* Created my free logo at [LogoMakr.com](https://logomakr.com).
