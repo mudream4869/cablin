@@ -113,7 +113,6 @@ int main(int argc, char** argv) {
     script.callFunction("hello_world", {});
     return 0;
 }
-```
 
 ## Credits
 
