@@ -17,6 +17,10 @@ public:
 
     void prepare(mukyu::cablin::core::Controller* controller);
 
+    std::string name() const {
+        return BUILTIN_CAST_NAME;
+    }
+
 private:
     class Impl;
     std::unique_ptr<Impl> impl_;

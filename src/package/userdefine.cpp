@@ -49,6 +49,10 @@ public:
         }
     }
 
+    std::string name() const {
+        return name_;
+    }
+
     std::vector<std::string> usePackages() const {
         return usedPackages_;
     }
@@ -107,6 +111,10 @@ UserPackage::~UserPackage() = default;
 
 void UserPackage::prepare(mccore::Controller* controller) {
     impl_->prepare(controller);
+}
+
+std::string UserPackage::name() const {
+    return impl_->name();
 }
 
 std::vector<std::string> UserPackage::usePackages() const {

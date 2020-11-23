@@ -48,6 +48,10 @@ public:
             MYPACKAGE_NAME,
             std::make_shared<mcfunc::FunctionFunctor>("print", printFunc));
     }
+
+    std::string name() const {
+        return MYPACKAGE_NAME;
+    }
 };
 
 
@@ -68,10 +72,10 @@ int main(int argc, char** argv) {
 
     auto node = YAML::Load(body);
 
-    mccore::Script::PackagePtrMap packages = {
-        {MYPACKAGE_NAME, std::make_shared<MyPackage>()}};
+    mccore::Script script(".");
+    script.addYamlNode("main", node);
+    script.addPackage(std::make_shared<MyPackage>());
 
-    mccore::Script script(node, packages);
-    script.callFunction("hello_world", {});
+    script.callFunction("main", "hello_world", {});
     return 0;
 }

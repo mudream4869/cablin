@@ -18,7 +18,10 @@ int main(int argc, char** argv) {
 )";
 
     auto node = YAML::Load(body);
-    mccore::Script script(node);
-    script.callFunction("hello_world", {});
+
+    mccore::Script script(".");
+    script.addYamlNode("main", node);
+
+    script.callFunction("main", "hello_world", {});
     return 0;
 }

@@ -18,19 +18,21 @@ namespace core {
 
 class Script final {
 public:
-    using PackagePtrMap = std::unordered_map<std::string, PackagePtr>;
-
-    Script(const std::string& filename);
-    Script(const std::string& filename, PackagePtrMap packages);
-
-    Script(const YAML::Node& root);
-    Script(const YAML::Node& root, PackagePtrMap packages);
+    explicit Script(const std::string& importDir);
 
     ~Script();
 
-    int main(const std::vector<std::string>& argv);
+    void addFile(const std::string& name, const std::string& filename);
 
-    Value callFunction(const std::string& name, std::vector<Value> params);
+    void addFile(const std::string& filename);
+
+    void addYamlNode(const std::string& name, const YAML::Node& root);
+
+    void addPackage(PackagePtr package);
+
+    Value callFunction(const std::string& packageName,
+                       const std::string& functionName,
+                       std::vector<Value> params);
 
 private:
     class Impl;
