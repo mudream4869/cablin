@@ -1,6 +1,7 @@
 #include <mukyu/cablin/core/script.hpp>
 
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/error.hpp>
 
 #include <mukyu/cablin/package/factory.hpp>
 #include <mukyu/cablin/package/userdefine.hpp>
@@ -64,8 +65,24 @@ public:
 
         packageMap_.emplace(package->name(), package);
         for (auto name : package->usePackages()) {
-            addPackage(mcpkg::createPackage(name, importDir_));
+            addPackage(name);
         }
+    }
+
+    void addPackage(const std::string& name) {
+        if (packageMap_.find(name) != packageMap_.end()) {
+            return;
+        }
+
+        PackagePtr pkg;
+        try {
+            pkg = mcpkg::createBuiltinPackage(name);
+        } catch (const CablinIdentifierNotFoundException&) {
+            pkg =
+                std::make_shared<mcpkg::UserPackage>(name, name + YAML_FILEEXT);
+        }
+
+        addPackage(std::move(pkg));
     }
 
     Value callFunction(const std::string& packageName,
@@ -81,7 +98,6 @@ public:
 
 private:
     std::string importDir_;
-
     std::unordered_map<std::string, PackagePtr> packageMap_;
 };
 

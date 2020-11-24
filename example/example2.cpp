@@ -73,8 +73,9 @@ int main(int argc, char** argv) {
     auto node = YAML::Load(body);
 
     mccore::Script script(".");
-    script.addYamlNode("main", node);
+
     script.addPackage(std::make_shared<MyPackage>());
+    script.addYamlNode("main", node);
 
     script.callFunction("main", "hello_world", {});
     return 0;
