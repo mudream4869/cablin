@@ -88,29 +88,39 @@ private:
 };
 
 
-class LocalVariableController {
-public:
-    using BlockStack = std::vector<VariableMap>;
+struct BlockStack {
+    std::vector<VariableMap> variableMap;
+    std::string package;
 
-    LocalVariableController() {
-        // XXX: A function block is prepared default. Is it make sense ???
-        funcStack_.push(BlockStack(1));
+    explicit BlockStack(const std::string& pkg) {
+        package = pkg;
+        variableMap.push_back({});
     }
-    ~LocalVariableController() = default;
+};
+
+
+class LocalStateController {
+public:
+    LocalStateController() {
+        // XXX: A function block is prepared default. Is it make sense ???
+        funcStack_.push(BlockStack(""));
+    }
+
+    ~LocalStateController() = default;
 
     void addVar(const std::string& name, const Value& value) {
-        auto& vars = funcStack_.top().back();
+        auto& vars = funcStack_.top().variableMap.back();
 
         if (vars.find(name) != vars.end()) {
             throw CablinRuntimeException(
-                "LocalVariableController::addVar: " + name + " redefine found");
+                "LocalStateController::addVar: " + name + " redefine found");
         }
 
         vars[name] = value;
     }
 
     void setVar(const std::string& name, const Value& value) {
-        auto& bStk = funcStack_.top();
+        auto& bStk = funcStack_.top().variableMap;
 
         for (auto it = bStk.rbegin(); it != bStk.rend(); ++it) {
             auto varIt = it->find(name);
@@ -120,7 +130,7 @@ public:
 
             if (varIt->second.type() != value.type()) {
                 throw CablinRuntimeException(
-                    "LocalVariableController::setVar: type not equal");
+                    "LocalStateController::setVar: type not equal");
             }
 
             varIt->second = value;
@@ -128,11 +138,11 @@ public:
         }
 
         throw CablinIdentifierNotFoundException(
-            "LocalVariableController::setVar: " + name + " not found");
+            "LocalStateController::setVar: " + name + " not found");
     }
 
     const Value& getVar(const std::string& name) const {
-        auto& bStk = funcStack_.top();
+        auto& bStk = funcStack_.top().variableMap;
 
         for (auto it = bStk.crbegin(); it != bStk.crend(); ++it) {
             if (it->find(name) != it->end()) {
@@ -141,11 +151,11 @@ public:
         }
 
         throw CablinIdentifierNotFoundException(
-            "LocalVariableController::getVar: " + name + " not found");
+            "LocalStateController::getVar: " + name + " not found");
     }
 
-    void pushFunctionBlock() {
-        funcStack_.push(BlockStack(1));
+    void pushFunctionBlock(const std::string& packageName) {
+        funcStack_.push(BlockStack(packageName));
     }
 
     void popFunctionBlock() {
@@ -153,11 +163,11 @@ public:
     }
 
     void pushLocalBlock() {
-        funcStack_.top().push_back({});
+        funcStack_.top().variableMap.push_back({});
     }
 
     void popLocalBlock() {
-        funcStack_.top().pop_back();
+        funcStack_.top().variableMap.pop_back();
     }
 
 private:
@@ -229,7 +239,7 @@ public:
                        const std::string& name, std::vector<Value> params) {
         auto& package = packages.at(packageName);
 
-        localVarContr_.pushFunctionBlock();
+        localVarContr_.pushFunctionBlock(packageName);
         mukyu::cablin::common::Defer deferFunc(
             [this]() { this->localVarContr_.popFunctionBlock(); });
 
@@ -245,7 +255,7 @@ public:
     }
 
 private:
-    LocalVariableController localVarContr_;
+    LocalStateController localVarContr_;
     std::unordered_map<std::string, PackageController> packages;
 };
 
