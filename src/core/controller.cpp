@@ -154,6 +154,10 @@ public:
             "LocalStateController::getVar: " + name + " not found");
     }
 
+    std::string getCurrentPackageName() const {
+        return funcStack_.top().package;
+    }
+
     void pushFunctionBlock(const std::string& packageName) {
         funcStack_.push(BlockStack(packageName));
     }
@@ -184,79 +188,83 @@ public:
     ~Impl() = default;
 
     void addPackage(const std::string& package) {
-        if (packages.find(package) != packages.end()) {
+        if (packages_.find(package) != packages_.end()) {
             throw CablinRuntimeException("Impl::addPackage: package " +
                                          package + " redefine");
         }
-        packages[package] = {};
+        packages_[package] = {};
     }
 
     void addPackageVar(const std::string& package, const std::string& name,
                        const Value& value) {
-        if (packages.find(package) == packages.end()) {
+        if (packages_.find(package) == packages_.end()) {
             throw CablinIdentifierNotFoundException(
                 "Impl::addPackageVar: package " + package + " not found");
         }
-        packages.at(package).addVar(name, value);
+        packages_.at(package).addVar(name, value);
     }
 
     void setPackageVar(const std::string& package, const std::string& name,
                        const Value& value) {
-        if (packages.find(package) == packages.end()) {
+        if (packages_.find(package) == packages_.end()) {
             throw CablinIdentifierNotFoundException(
                 "Impl::setPackageVar: package " + package + " not found");
         }
-        packages.at(package).setVar(name, value);
+        packages_.at(package).setVar(name, value);
     }
 
     const Value& getPackageVar(const std::string& package,
                                const std::string& name) {
-        if (packages.find(package) == packages.end()) {
+        if (packages_.find(package) == packages_.end()) {
             throw CablinIdentifierNotFoundException(
                 "Impl::getPackageVar: package " + package + " not found");
         }
-        return packages.at(package).getVar(name);
+        return packages_.at(package).getVar(name);
+    }
+
+    std::string getCurrentPackageName() const {
+        return localStateContr_.getCurrentPackageName();
     }
 
     void addLocalVar(const std::string& name, const Value& value) {
-        localVarContr_.addVar(name, value);
+        localStateContr_.addVar(name, value);
     }
 
     void setLocalVar(const std::string& name, const Value& value) {
-        localVarContr_.setVar(name, value);
+        localStateContr_.setVar(name, value);
     }
 
     const Value& getLocalVar(const std::string& name) const {
-        return localVarContr_.getVar(name);
+        return localStateContr_.getVar(name);
     }
 
     void addFunction(const std::string& package,
                      std::shared_ptr<Function> function) {
-        packages.at(package).addFunction(std::move(function));
+        packages_.at(package).addFunction(std::move(function));
     }
 
     Value callFunction(Controller* controller, const std::string& packageName,
                        const std::string& name, std::vector<Value> params) {
-        auto& package = packages.at(packageName);
+        auto& package = packages_.at(packageName);
 
-        localVarContr_.pushFunctionBlock(packageName);
+        localStateContr_.pushFunctionBlock(packageName);
         mukyu::cablin::common::Defer deferFunc(
-            [this]() { this->localVarContr_.popFunctionBlock(); });
+            [this]() { this->localStateContr_.popFunctionBlock(); });
 
         return package.callFunction(controller, name, params);
     }
 
     void pushLocalBlock() {
-        localVarContr_.pushLocalBlock();
+        localStateContr_.pushLocalBlock();
     }
 
     void popLocalBlock() {
-        localVarContr_.popLocalBlock();
+        localStateContr_.popLocalBlock();
     }
 
 private:
-    LocalStateController localVarContr_;
-    std::unordered_map<std::string, PackageController> packages;
+    LocalStateController localStateContr_;
+    std::unordered_map<std::string, PackageController> packages_;
 };
 
 
@@ -283,6 +291,10 @@ void Controller::setPackageVar(const std::string& package,
 const Value& Controller::getPackageVar(const std::string& package,
                                        const std::string& name) {
     return impl_->getPackageVar(package, name);
+}
+
+std::string Controller::getCurrentPackageName() const {
+    return impl_->getCurrentPackageName();
 }
 
 void Controller::addLocalVar(const std::string& name, const Value& value) {
