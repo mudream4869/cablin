@@ -17,7 +17,6 @@ const std::string COMMANDVAR_KEY = "var";
 class CommandVar : public mukyu::cablin::core::Command {
 public:
     CommandVar(const YAML::Node& node);
-
     ~CommandVar();
 
     mukyu::cablin::core::Value execute(

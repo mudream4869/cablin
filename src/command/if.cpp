@@ -19,10 +19,10 @@ namespace mcexpr = mukyu::cablin::expr;
 
 class CommandIf::Impl {
 public:
-    Impl(const std::string& package, const YAML::Node& node)
-        : cond_(mcexpr::createExpr(package, node["condition"])),
-          thenBody_(createCommandList(package, node["then"])),
-          elseBody_(createCommandList(package, node["else"])) {
+    Impl(const YAML::Node& node)
+        : cond_(mcexpr::createExpr(node["condition"])),
+          thenBody_(createCommandList(node["then"])),
+          elseBody_(createCommandList(node["else"])) {
     }
 
     mccore::Value execute(mccore::Controller* controller) {
@@ -46,8 +46,8 @@ private:
     std::vector<mccore::CommandPtr> elseBody_;
 };
 
-CommandIf::CommandIf(const std::string& package, const YAML::Node& node)
-    : impl_(std::make_unique<Impl>(package, node)) {
+CommandIf::CommandIf(const YAML::Node& node)
+    : impl_(std::make_unique<Impl>(node)) {
 }
 
 CommandIf::~CommandIf() = default;

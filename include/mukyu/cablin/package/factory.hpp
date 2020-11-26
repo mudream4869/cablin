@@ -11,8 +11,7 @@ namespace cablin {
 namespace package {
 
 
-mukyu::cablin::core::PackagePtr createPackage(const std::string& name,
-                                              const std::string& dir);
+mukyu::cablin::core::PackagePtr createBuiltinPackage(const std::string& name);
 
 
 }  // namespace package

@@ -19,7 +19,7 @@ namespace mccommon = mukyu::cablin::common;
 namespace mcexpr = mukyu::cablin::expr;
 
 
-mccore::ExprPtr createExpr(const std::string& package, const YAML::Node& node) {
+mccore::ExprPtr createExpr(const YAML::Node& node) {
     auto key = mccommon::getSingleKey(node);
     if (!key.has_value()) {
         if (node.IsMap() && node.size() == 0) {
@@ -34,9 +34,9 @@ mccore::ExprPtr createExpr(const std::string& package, const YAML::Node& node) {
     if (key == mcexpr::EXPRCONST_NAME) {
         return std::make_unique<mcexpr::ExprConst>(obj);
     } else if (key == mcexpr::EXPRGET_NAME) {
-        return std::make_unique<mcexpr::ExprGet>(package, obj);
+        return std::make_unique<mcexpr::ExprGet>(obj);
     } else if (key == mcexpr::EXPRCALL_NAME) {
-        return std::make_unique<mcexpr::ExprCall>(package, obj);
+        return std::make_unique<mcexpr::ExprCall>(obj);
     }
 
     throw mccore::makeParsingException(

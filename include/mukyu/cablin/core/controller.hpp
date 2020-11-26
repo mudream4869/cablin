@@ -29,6 +29,8 @@ public:
     const Value& getPackageVar(const std::string& package,
                                const std::string& name);
 
+    std::string getCurrentPackageName() const;
+
     void addLocalVar(const std::string& name, const Value& value);
 
     void setLocalVar(const std::string& name, const Value& value);

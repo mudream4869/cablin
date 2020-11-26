@@ -16,7 +16,7 @@ const std::string COMMANDASSIGN_KEY = "assign";
 
 class CommandAssign : public mukyu::cablin::core::Command {
 public:
-    CommandAssign(const std::string& package, const YAML::Node& node);
+    CommandAssign(const YAML::Node& node);
     ~CommandAssign();
 
     mukyu::cablin::core::Value execute(

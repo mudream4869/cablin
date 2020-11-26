@@ -16,7 +16,7 @@ const std::string COMMANDIF_KEY = "if";
 
 class CommandIf : public mukyu::cablin::core::Command {
 public:
-    CommandIf(const std::string& package, const YAML::Node& node);
+    CommandIf(const YAML::Node& node);
     ~CommandIf();
 
     mukyu::cablin::core::Value execute(

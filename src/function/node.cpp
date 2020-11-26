@@ -29,9 +29,9 @@ private:
     };
 
 public:
-    Impl(const std::string& package, const YAML::Node& node)
+    Impl(const YAML::Node& node)
         : name_(node["name"].as<std::string>()),
-          body_(mccmd::createCommandList(package, node["body"])) {
+          body_(mccmd::createCommandList(node["body"])) {
         const auto& params = node["params"];
         if (params != nullptr) {
             for (const auto& item : params) {
@@ -99,8 +99,8 @@ private:
 };
 
 
-FunctionNode::FunctionNode(const std::string& package, const YAML::Node& node)
-    : impl_(std::make_unique<Impl>(package, node)) {
+FunctionNode::FunctionNode(const YAML::Node& node)
+    : impl_(std::make_unique<Impl>(node)) {
 }
 
 FunctionNode::~FunctionNode() = default;

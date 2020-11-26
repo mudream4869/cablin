@@ -14,8 +14,8 @@ namespace mccore = mukyu::cablin::core;
 
 class ExprCall::Impl {
 public:
-    Impl(const std::string& package, const YAML::Node& node)
-        : callCmd_(std::make_unique<mccmd::CommandCall>(package, node)) {
+    Impl(const YAML::Node& node)
+        : callCmd_(std::make_unique<mccmd::CommandCall>(node)) {
     }
 
     ~Impl() = default;
@@ -28,8 +28,8 @@ private:
     mccore::CommandPtr callCmd_;
 };
 
-ExprCall::ExprCall(const std::string& package, const YAML::Node& node)
-    : impl_(std::make_unique<Impl>(package, node)) {
+ExprCall::ExprCall(const YAML::Node& node)
+    : impl_(std::make_unique<Impl>(node)) {
 }
 
 ExprCall::~ExprCall() = default;

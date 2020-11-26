@@ -49,6 +49,10 @@ public:
         }
     }
 
+    std::string name() const {
+        return name_;
+    }
+
     std::vector<std::string> usePackages() const {
         return usedPackages_;
     }
@@ -71,7 +75,7 @@ private:
 
             if (key == "func") {
                 userFunc_.push_back(
-                    std::make_shared<mcfunc::FunctionNode>(name_, obj));
+                    std::make_shared<mcfunc::FunctionNode>(obj));
             } else if (key == mccmd::COMMANDGLOBALVAR_KEY) {
                 globalCommand_.push_back(
                     std::make_unique<mccmd::CommandGlobalVar>(name_, obj));
@@ -107,6 +111,10 @@ UserPackage::~UserPackage() = default;
 
 void UserPackage::prepare(mccore::Controller* controller) {
     impl_->prepare(controller);
+}
+
+std::string UserPackage::name() const {
+    return impl_->name();
 }
 
 std::vector<std::string> UserPackage::usePackages() const {

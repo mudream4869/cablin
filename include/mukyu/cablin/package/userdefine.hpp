@@ -21,6 +21,9 @@ public:
     ~UserPackage();
 
     void prepare(mukyu::cablin::core::Controller* controller);
+
+    std::string name() const;
+
     std::vector<std::string> usePackages() const;
 
 private:

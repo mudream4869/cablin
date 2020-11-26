@@ -23,7 +23,7 @@ then:
     auto node = YAML::Load(body);
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandIf(package, node);
+    auto commandIf = mccmd::CommandIf(node);
 
     mccore::Controller controller;
     controller.addLocalVar("work", false);
@@ -51,7 +51,7 @@ else:
 
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandIf(package, node);
+    auto commandIf = mccmd::CommandIf(node);
 
     mccore::Controller controller;
     controller.addLocalVar("work", false);

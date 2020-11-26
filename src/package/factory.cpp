@@ -6,10 +6,6 @@
 #include <mukyu/cablin/package/builtin_io.hpp>
 #include <mukyu/cablin/package/builtin_op.hpp>
 
-#include <mukyu/cablin/package/userdefine.hpp>
-
-#include <filesystem>
-
 
 namespace mukyu {
 namespace cablin {
@@ -20,24 +16,16 @@ namespace mccore = mukyu::cablin::core;
 namespace mcpkg = mukyu::cablin::package;
 
 
-const std::string YAML_FILEEXT = ".yaml";
-
-mccore::PackagePtr createPackage(const std::string& name,
-                                 const std::string& dir) {
+mccore::PackagePtr createBuiltinPackage(const std::string& name) {
     if (name == mcpkg::BUILTIN_IO_NAME) {
         return std::make_shared<mcpkg::BuiltinIOPackage>();
     } else if (name == mcpkg::BUILTIN_OP_NAME) {
         return std::make_shared<mcpkg::BuiltinOperatorPackage>();
     } else if (name == mcpkg::BUILTIN_CAST_NAME) {
         return std::make_shared<mcpkg::BuiltinCastPackage>();
-    } else if (!dir.empty()) {
-        auto pathDir = std::filesystem::path(dir);
-        auto fullPath = (pathDir / (name + YAML_FILEEXT)).string();
-        return std::make_shared<mcpkg::UserPackage>(name, fullPath);
     }
-
-    throw mccore::CablinIdentifierNotFoundException("craetePackage: " + name +
-                                                    " not found");
+    throw mccore::CablinIdentifierNotFoundException("createPackage: " + name +
+                                                    " is not builtin package");
 }
 
 

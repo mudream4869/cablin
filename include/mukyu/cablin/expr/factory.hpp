@@ -10,8 +10,7 @@ namespace cablin {
 namespace expr {
 
 
-mukyu::cablin::core::ExprPtr createExpr(const std::string& package,
-                                        const YAML::Node& node);
+mukyu::cablin::core::ExprPtr createExpr(const YAML::Node& node);
 
 
 }  // namespace expr

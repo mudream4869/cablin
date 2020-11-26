@@ -15,7 +15,7 @@ const std::string EXPRGET_NAME = "get";
 
 class ExprGet : public mukyu::cablin::core::Expr {
 public:
-    ExprGet(const std::string& package, const YAML::Node& node);
+    ExprGet(const YAML::Node& node);
 
     ~ExprGet();
 
@@ -23,7 +23,6 @@ public:
         mukyu::cablin::core::Controller* controller);
 
 private:
-    const std::string& package_;
     std::string packageName_;
     std::string varName_;
 };

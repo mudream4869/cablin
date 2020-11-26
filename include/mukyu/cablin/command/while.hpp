@@ -16,7 +16,7 @@ const std::string COMMANDWHILE_KEY = "while";
 
 class CommandWhile : public mukyu::cablin::core::Command {
 public:
-    CommandWhile(const std::string& package, const YAML::Node& node);
+    CommandWhile(const YAML::Node& node);
     ~CommandWhile();
 
     mukyu::cablin::core::Value execute(

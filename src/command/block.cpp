@@ -19,8 +19,7 @@ namespace mcexpr = mukyu::cablin::expr;
 
 class CommandBlock::Impl {
 public:
-    Impl(const std::string& package, const YAML::Node& node)
-        : body_(createCommandList(package, node)) {
+    Impl(const YAML::Node& node) : body_(createCommandList(node)) {
     }
 
     mccore::Value execute(mccore::Controller* controller) {
@@ -36,8 +35,8 @@ private:
     std::vector<mccore::CommandPtr> body_;
 };
 
-CommandBlock::CommandBlock(const std::string& package, const YAML::Node& node)
-    : impl_(std::make_unique<Impl>(package, node)) {
+CommandBlock::CommandBlock(const YAML::Node& node)
+    : impl_(std::make_unique<Impl>(node)) {
 }
 
 CommandBlock::~CommandBlock() = default;

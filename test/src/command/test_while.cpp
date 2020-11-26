@@ -22,7 +22,7 @@ body:
 
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandWhile(package, node);
+    auto commandIf = mccmd::CommandWhile(node);
 
     mccore::Controller controller;
     controller.addLocalVar("run", true);
@@ -48,7 +48,7 @@ body:
 
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandWhile(package, node);
+    auto commandIf = mccmd::CommandWhile(node);
 
     mccore::Controller controller;
     controller.addLocalVar("run", true);

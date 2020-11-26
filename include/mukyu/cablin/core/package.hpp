@@ -19,6 +19,8 @@ public:
     // prepare package's functions and variable
     virtual void prepare(Controller*) = 0;
 
+    virtual std::string name() const = 0;
+
     // usePackages return imported package
     virtual std::vector<std::string> usePackages() const {
         return {};

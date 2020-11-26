@@ -17,8 +17,7 @@ const std::string COMMANDCALL_KEY = "call";
 
 class CommandCall : public mukyu::cablin::core::Command {
 public:
-    CommandCall(const std::string& package, const YAML::Node& node);
-
+    CommandCall(const YAML::Node& node);
     ~CommandCall();
 
     mukyu::cablin::core::Value execute(

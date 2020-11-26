@@ -19,8 +19,8 @@ const std::string COMMANDRETURN_KEY = "return";
 
 class CommandReturn : public mukyu::cablin::core::Command {
 public:
-    CommandReturn(const std::string& package, const YAML::Node& node)
-        : expr_(mukyu::cablin::expr::createExpr(package, node)) {
+    CommandReturn(const YAML::Node& node)
+        : expr_(mukyu::cablin::expr::createExpr(node)) {
     }
 
     mukyu::cablin::core::Value execute(
