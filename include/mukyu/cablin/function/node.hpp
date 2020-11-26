@@ -18,7 +18,7 @@ namespace function {
 
 class FunctionNode : public mukyu::cablin::core::Function {
 public:
-    FunctionNode(const std::string& package, const YAML::Node& node);
+    FunctionNode(const YAML::Node& node);
 
     ~FunctionNode();
 

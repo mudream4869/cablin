@@ -16,7 +16,7 @@ const std::string COMMANDBLOCK_KEY = "block";
 
 class CommandBlock : public mukyu::cablin::core::Command {
 public:
-    CommandBlock(const std::string& package, const YAML::Node& node);
+    CommandBlock(const YAML::Node& node);
     ~CommandBlock();
 
     mukyu::cablin::core::Value execute(

@@ -13,11 +13,10 @@ namespace cablin {
 namespace command {
 
 
-mukyu::cablin::core::CommandPtr createCommand(const std::string& package,
-                                              const YAML::Node& node);
+mukyu::cablin::core::CommandPtr createCommand(const YAML::Node& node);
 
 std::vector<mukyu::cablin::core::CommandPtr> createCommandList(
-    const std::string& package, const YAML::Node& node);
+    const YAML::Node& node);
 
 
 }  // namespace command

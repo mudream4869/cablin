@@ -18,7 +18,7 @@ const std::string EXPRCALL_NAME = "call";
 
 class ExprCall : public mukyu::cablin::core::Expr {
 public:
-    ExprCall(const std::string& package, const YAML::Node& node);
+    ExprCall(const YAML::Node& node);
     ~ExprCall();
 
     mukyu::cablin::core::Value compute(

@@ -27,8 +27,7 @@ namespace mccore = mukyu::cablin::core;
 namespace mccommon = mukyu::cablin::common;
 
 
-mccore::CommandPtr createCommand(const std::string& package,
-                                 const YAML::Node& node) {
+mccore::CommandPtr createCommand(const YAML::Node& node) {
     auto key = mccommon::getSingleKey(node);
     if (!key) {
         throw mccore::makeParsingException(
@@ -40,29 +39,28 @@ mccore::CommandPtr createCommand(const std::string& package,
     if (key == COMMANDVAR_KEY) {
         return std::make_unique<CommandVar>(nodeValue);
     } else if (key == COMMANDCALL_KEY) {
-        return std::make_unique<CommandCall>(package, nodeValue);
+        return std::make_unique<CommandCall>(nodeValue);
     } else if (key == COMMANDASSIGN_KEY) {
-        return std::make_unique<CommandAssign>(package, nodeValue);
+        return std::make_unique<CommandAssign>(nodeValue);
     } else if (key == COMMANDBLOCK_KEY) {
-        return std::make_unique<CommandBlock>(package, nodeValue);
+        return std::make_unique<CommandBlock>(nodeValue);
     } else if (key == COMMANDIF_KEY) {
-        return std::make_unique<CommandIf>(package, nodeValue);
+        return std::make_unique<CommandIf>(nodeValue);
     } else if (key == COMMANDWHILE_KEY) {
-        return std::make_unique<CommandWhile>(package, nodeValue);
+        return std::make_unique<CommandWhile>(nodeValue);
     } else if (key == COMMANDBREAK_KEY) {
         return std::make_unique<CommandBreak>();
     } else if (key == COMMANDCONTINUE_KEY) {
         return std::make_unique<CommandContinue>();
     } else if (key == COMMANDRETURN_KEY) {
-        return std::make_unique<CommandReturn>(package, nodeValue);
+        return std::make_unique<CommandReturn>(nodeValue);
     }
 
     throw mccore::makeParsingException(
         "createCommand: cannot specify command: " + key.value(), node.Mark());
 }
 
-std::vector<mccore::CommandPtr> createCommandList(const std::string& package,
-                                                  const YAML::Node& node) {
+std::vector<mccore::CommandPtr> createCommandList(const YAML::Node& node) {
     if (node == nullptr) {
         return {};
     }
@@ -71,7 +69,7 @@ std::vector<mccore::CommandPtr> createCommandList(const std::string& package,
     std::vector<mccore::CommandPtr> ret;
 
     for (size_t i = 0; i < sz; ++i) {
-        ret.emplace_back(createCommand(package, node[i]));
+        ret.emplace_back(createCommand(node[i]));
     }
     return ret;
 }

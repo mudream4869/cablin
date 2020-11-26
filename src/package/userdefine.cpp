@@ -75,7 +75,7 @@ private:
 
             if (key == "func") {
                 userFunc_.push_back(
-                    std::make_shared<mcfunc::FunctionNode>(name_, obj));
+                    std::make_shared<mcfunc::FunctionNode>(obj));
             } else if (key == mccmd::COMMANDGLOBALVAR_KEY) {
                 globalCommand_.push_back(
                     std::make_unique<mccmd::CommandGlobalVar>(name_, obj));

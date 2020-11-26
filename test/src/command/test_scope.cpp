@@ -27,7 +27,7 @@ TEST(COMMAND_BLOCK, COMMAND_BLOCK) {
 
     std::string package = "main";
 
-    auto commandBlock = mccmd::CommandBlock(package, node);
+    auto commandBlock = mccmd::CommandBlock(node);
     return;
 
     mccore::Controller controller;

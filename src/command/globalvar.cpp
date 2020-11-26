@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    const std::string& package_;
+    std::string package_;
     std::string name_;
     mccore::ValueType type_;
     mccore::Value defaultValue_;
