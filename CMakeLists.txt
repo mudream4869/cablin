@@ -50,6 +50,16 @@ target_link_libraries(cablin
                       ${YAML_CPP_LIBRARIES})
 
 # ----------
+# Installation
+
+install(TARGETS cablin
+        LIBRARY
+        DESTINATION lib)
+
+install(DIRECTORY include/mukyu/cablin
+        DESTINATION include/mukyu/cablin)
+
+# ----------
 # Interpreter
 
 add_subdirectory(interpreter)
