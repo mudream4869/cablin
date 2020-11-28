@@ -62,4 +62,4 @@ add_subdirectory(example)
 # ----------
 # Unit Test
 
-add_subdirectory(test)
+add_subdirectory(tests)
