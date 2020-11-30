@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.6.2)
 
-enable_testing()
-
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIR})
 
@@ -20,10 +18,13 @@ set(cablin_test_function_src
     "src/function/test_functor.cpp"
     "src/function/test_node.cpp")
 
-add_executable(test
+add_executable(unit_tests
     ${cablin_test_command_src}
     ${cablin_test_expr_src}
     ${cablin_test_function_src})
 
-add_dependencies(test cablin)
-target_link_libraries(test cablin ${GTEST_BOTH_LIBRARIES})
+add_dependencies(unit_tests cablin)
+target_link_libraries(unit_tests cablin ${GTEST_BOTH_LIBRARIES})
+
+add_test(NAME unit_tests
+         COMMAND unit_tests) 

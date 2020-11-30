@@ -1,4 +1,4 @@
-- import: test5
+- import: func-return
 
 - func:
     name: main
@@ -9,8 +9,8 @@
           name: a
           default_value: 30
 
-      # test5::myFunc(a)
+      # func-return::myFunc(a)
       - call:
-          name: test5::myFunc
+          name: func-return::myFunc
           params:
             - get: a

@@ -3,10 +3,12 @@
 - func:
     name: main
     body:
-      - var:
+      # Parse Error
+      - var1: 1
+        var:
           type: string
           name: a
-          default_value: 1哈哈1
+          default_value: hello
 
       - call:
           name: io::print
