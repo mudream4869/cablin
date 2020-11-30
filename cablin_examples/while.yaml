@@ -26,7 +26,7 @@
                 params:
                   - get: a
 
-            # a = a - one
+            # a = a - 1
             - assign:
                 target: a
                 source:
