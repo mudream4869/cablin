@@ -3,6 +3,9 @@ project(mukyu_cablin)
 
 find_package(yaml-cpp REQUIRED)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 include_directories(include)
@@ -47,7 +50,8 @@ add_library(cablin
             ${cablin_expr_src})
 
 target_link_libraries(cablin
-                      ${YAML_CPP_LIBRARIES})
+                      ${YAML_CPP_LIBRARIES}
+                      Threads::Threads)
 
 # ----------
 # Installation
