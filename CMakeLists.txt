@@ -16,6 +16,9 @@ set(cablin_core_src
     src/core/controller.cpp
     "src/core/script.cpp")
 
+set(cablin_common_src
+    src/common/yamlutil.cpp)
+
 set(cablin_command_src
     "src/command/factory.cpp"
     "src/command/if.cpp"
@@ -45,6 +48,7 @@ set(cablin_package_src
 add_library(cablin
             ${cablin_core_src}
             ${cablin_command_src}
+            ${cablin_common_src}
             ${cablin_function_src}
             ${cablin_package_src}
             ${cablin_expr_src})
