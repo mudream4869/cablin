@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.6.2)
 project(mukyu_cablin)
 
-find_package(yaml-cpp REQUIRED)
+find_package(yaml-cpp 0.6.2 REQUIRED)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
