@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.6.2)
 project(mukyu_cablin)
 
+if (MSVC)
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG          ${CMAKE_CXX_FLAGS_DEBUG})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_MINSIZEREL     ${CMAKE_CXX_FLAGS_MINSIZEREL})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE        ${CMAKE_CXX_FLAGS_RELEASE})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+  add_definitions("/wd4267 /wd4244 /wd4305 /Zc:strictStrings /utf-8")
+endif()
+
 add_subdirectory(third_party/yaml-cpp)
 include_directories(third_party/yaml-cpp/include)
 
