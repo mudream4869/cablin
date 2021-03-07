@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.6.2)
 project(mukyu_cablin)
 
-find_package(yaml-cpp 0.6.2 REQUIRED)
+add_subdirectory(third_party/yaml-cpp)
+include_directories(third_party/yaml-cpp/include)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
-include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 include_directories(include)
 
@@ -54,7 +53,8 @@ add_library(cablin
             ${cablin_expr_src})
 
 target_link_libraries(cablin
-                      ${YAML_CPP_LIBRARIES}
+                      PRIVATE
+                      yaml-cpp
                       Threads::Threads)
 
 # ----------
