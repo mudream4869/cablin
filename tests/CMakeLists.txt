@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.6.2)
 
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIR})
+add_subdirectory(third_party/googletest)
+
+include_directories(third_party/googletest/googletest/include)
 
 include_directories(../include/)
 
@@ -24,7 +25,7 @@ add_executable(unit_tests
     ${cablin_test_function_src})
 
 add_dependencies(unit_tests cablin)
-target_link_libraries(unit_tests cablin ${GTEST_BOTH_LIBRARIES})
+target_link_libraries(unit_tests cablin gtest gtest_main)
 
 add_test(NAME unit_tests
          COMMAND unit_tests) 
