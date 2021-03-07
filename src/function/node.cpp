@@ -92,7 +92,7 @@ public:
     }
 
 private:
-    mccore::ValueType returnType_;
+    mccore::ValueType returnType_ = mccore::ValueType::NONE;
     std::string name_;
     std::vector<mccore::CommandPtr> body_;
     std::vector<Parameter> params_;
