@@ -20,18 +20,6 @@ namespace core {
 namespace mcpkg = mukyu::cablin::package;
 
 
-namespace {
-
-
-std::string removeFileExt(const std::string& filename) {
-    std::filesystem::path p(filename);
-    return p.stem();
-}
-
-
-}  // namespace
-
-
 const std::string MAINFUNCTION_NAME = "main";
 const std::string YAML_FILEEXT = ".yaml";
 
@@ -43,7 +31,8 @@ public:
 
     void addFile(const std::string& filename) {
         auto stem = std::filesystem::path(filename).stem();
-        auto pkg = std::make_shared<mcpkg::UserPackage>(stem, filename);
+        auto pkg =
+            std::make_shared<mcpkg::UserPackage>(stem.string(), filename);
         addPackage(std::move(pkg));
     }
 

@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.6.2)
 project(mukyu_cablin)
 
-find_package(yaml-cpp REQUIRED)
+if (MSVC)
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_DEBUG          ${CMAKE_CXX_FLAGS_DEBUG})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_MINSIZEREL     ${CMAKE_CXX_FLAGS_MINSIZEREL})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE        ${CMAKE_CXX_FLAGS_RELEASE})
+  string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+  add_definitions("/wd4267 /wd4244 /wd4305 /Zc:strictStrings /utf-8")
+endif()
+
+add_subdirectory(third_party/yaml-cpp)
+include_directories(third_party/yaml-cpp/include)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-
-include_directories(${YAML_CPP_INCLUDE_DIRS})
 
 include_directories(include)
 
@@ -15,6 +22,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(cablin_core_src
     src/core/controller.cpp
     "src/core/script.cpp")
+
+set(cablin_common_src
+    src/common/yamlutil.cpp)
 
 set(cablin_command_src
     "src/command/factory.cpp"
@@ -45,12 +55,14 @@ set(cablin_package_src
 add_library(cablin
             ${cablin_core_src}
             ${cablin_command_src}
+            ${cablin_common_src}
             ${cablin_function_src}
             ${cablin_package_src}
             ${cablin_expr_src})
 
 target_link_libraries(cablin
-                      ${YAML_CPP_LIBRARIES}
+                      PRIVATE
+                      yaml-cpp
                       Threads::Threads)
 
 # ----------
