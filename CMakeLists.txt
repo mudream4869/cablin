@@ -70,11 +70,11 @@ target_link_libraries(cablin
 
 install(TARGETS cablin
         DESTINATION lib
-        COMPONENT cablin_runtime)
+        COMPONENT cablin)
 
-install(DIRECTORY include/mukyu/cablin
-        DESTINATION include/mukyu/cablin
-        COMPONENT cablin_dev)
+install(DIRECTORY include/mukyu
+        DESTINATION include
+        COMPONENT cablin)
 
 # ----------
 # Interpreter
@@ -93,19 +93,16 @@ add_subdirectory(tests)
 
 # ----------
 # Packaging support
-# ref: https://cliutils.gitlab.io/modern-cmake/chapters/install/packaging.html
 
-set(CPACK_PACKAGE_VENDOR "Cablin")
+set(CPACK_PACKAGE_VENDOR "Mukyu")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cablin")
-set(CPACK_PACKAGE_VERSION_MAJOR 0)
-set(CPACK_PACKAGE_VERSION_MINOR 1)
-set(CPACK_PACKAGE_VERSION_PATCH 0)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
+set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 
-set(CPACK_COMPONENTS_ALL cablin_runtime cablin_dev)
+set(CPACK_ARCHIVE_COMPONENT_INSTALL 1)
+set(CPACK_COMPONENTS_ALL cablin)
 
-set(CPACK_SOURCE_GENERATOR "ZIP")
-set(CPACK_SOURCE_IGNORE_FILES ${CMAKE_SOURCE_DIR}/.git)
+set(CPACK_GENERATOR "ZIP")
 
 include(CPack)
