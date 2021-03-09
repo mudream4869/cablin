@@ -69,11 +69,12 @@ target_link_libraries(cablin
 # Installation
 
 install(TARGETS cablin
-        LIBRARY
-        DESTINATION lib)
+        DESTINATION lib
+        COMPONENT cablin)
 
-install(DIRECTORY include/mukyu/cablin
-        DESTINATION include/mukyu/cablin)
+install(DIRECTORY include/mukyu
+        DESTINATION include
+        COMPONENT cablin)
 
 # ----------
 # Interpreter
@@ -89,3 +90,14 @@ add_subdirectory(example)
 # Unit Test
 
 add_subdirectory(tests)
+
+# ----------
+# Archive support
+
+set(CPACK_ARCHIVE_FILE_NAME "mukyu-cablin")
+set(CPACK_ARCHIVE_COMPONENT_INSTALL 1)
+set(CPACK_COMPONENTS_ALL cablin)
+
+set(CPACK_GENERATOR "ZIP")
+
+include(CPack)
