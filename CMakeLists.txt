@@ -92,14 +92,9 @@ add_subdirectory(example)
 add_subdirectory(tests)
 
 # ----------
-# Packaging support
+# Archive support
 
-set(CPACK_PACKAGE_VENDOR "Mukyu")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Cablin")
-set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-
+set(CPACK_ARCHIVE_FILE_NAME "mukyu-cablin")
 set(CPACK_ARCHIVE_COMPONENT_INSTALL 1)
 set(CPACK_COMPONENTS_ALL cablin)
 
