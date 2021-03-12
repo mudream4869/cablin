@@ -18,10 +18,9 @@ public:
     void loadFromFile(const std::string& filename);
     void loadFromString(const std::string& cont);
 
-    std::unique_ptr<mukyu::cablin::core::Config> at(
-        const std::string& key) const;
+    mukyu::cablin::core::ConfigPtr at(const std::string& key) const;
 
-    std::unique_ptr<mukyu::cablin::core::Config> at(size_t index) const;
+    mukyu::cablin::core::ConfigPtr at(size_t index) const;
 
     size_t size() const;
 

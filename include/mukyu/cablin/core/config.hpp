@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <memory>
 
 
 namespace mukyu {
@@ -26,6 +27,9 @@ public:
     ~ConfigTypeError() = default;
 };
 
+class Config;
+using ConfigPtr = std::unique_ptr<Config>;
+
 // Config class Provide a readonly tree structure config interface
 class Config {
 public:
@@ -34,11 +38,11 @@ public:
 
     // Return dict[key]
     // Throw ConfigTypeError if the type is not a Map
-    virtual std::unique_ptr<Config> at(const std::string& key) const = 0;
+    virtual ConfigPtr at(const std::string& key) const = 0;
 
     // Return index_th element of list
     // Throw ConfigTypeError if the type is not a List
-    virtual std::unique_ptr<Config> at(size_t index) const = 0;
+    virtual ConfigPtr at(size_t index) const = 0;
 
     // Return size of list or map
     // Throw ConfigTypeError if the type is not a List of a Map

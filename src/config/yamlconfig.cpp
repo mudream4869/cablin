@@ -33,7 +33,7 @@ void YamlConfig::loadFromString(const std::string& cont) {
     impl_->node = YAML::Load(cont);
 }
 
-std::unique_ptr<mccore::Config> YamlConfig::at(const std::string& key) const {
+mccore::ConfigPtr YamlConfig::at(const std::string& key) const {
     if (!impl_->node.IsMap()) {
         throw mccore::ConfigTypeError("map");
     }
@@ -42,7 +42,7 @@ std::unique_ptr<mccore::Config> YamlConfig::at(const std::string& key) const {
     return createByImpl(std::move(retImpl));
 }
 
-std::unique_ptr<mccore::Config> YamlConfig::at(size_t index) const {
+mccore::ConfigPtr YamlConfig::at(size_t index) const {
     if (!impl_->node.IsSequence()) {
         throw mccore::ConfigTypeError("list");
     }
