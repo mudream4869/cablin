@@ -1,9 +1,10 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
+
+#include <optional>
 #include <stdexcept>
 #include <string>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -37,9 +38,14 @@ public:
     }
 };
 
-inline CablinParsingException makeParsingException(const std::string& msg,
-                                                   const YAML::Mark& mark) {
-    return CablinParsingException(msg, mark.line, mark.pos, mark.column);
+inline CablinParsingException makeParsingException(
+    const std::string& msg,
+    std::optional<mukyu::cablin::core::ConfigMark> maybeMark) {
+    if (maybeMark) {
+        auto mark = maybeMark.value();
+        return CablinParsingException(msg, mark.line, mark.pos, mark.col);
+    }
+    return CablinParsingException(msg, 0, 0, 0);
 }
 
 

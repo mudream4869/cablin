@@ -1,11 +1,15 @@
-#include <gtest/gtest.h>
-
 #include <mukyu/cablin/command/block.hpp>
 #include <mukyu/cablin/command/var.hpp>
+
+#include <mukyu/cablin/config/yamlconfig.hpp>
+
 #include <mukyu/cablin/core/controller.hpp>
+
+#include <gtest/gtest.h>
 
 namespace mccmd = mukyu::cablin::command;
 namespace mccore = mukyu::cablin::core;
+namespace mcconf = mukyu::cablin::config;
 
 TEST(COMMAND_BLOCK, COMMAND_BLOCK) {
     std::string body = R"(
@@ -23,11 +27,11 @@ TEST(COMMAND_BLOCK, COMMAND_BLOCK) {
         source:
           get: var1
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     std::string package = "main";
 
-    auto commandBlock = mccmd::CommandBlock(node);
+    auto commandBlock = mccmd::CommandBlock(conf);
     return;
 
     mccore::Controller controller;

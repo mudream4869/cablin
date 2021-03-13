@@ -29,25 +29,28 @@ private:
     };
 
 public:
-    Impl(const YAML::Node& node)
-        : name_(node["name"].as<std::string>()),
-          body_(mccmd::createCommandList(node["body"])) {
-        const auto& params = node["params"];
-        if (params != nullptr) {
-            for (const auto& item : params) {
+    Impl(const mccore::ConfigPtr& node)
+        : name_(node->at("name")->as<std::string>()),
+          body_(mccmd::createCommandList(node->at("body"))) {
+        auto params = node->at("params");
+        if (params) {
+            size_t size = params->size();
+            for (size_t i = 0; i < size; ++i) {
+                auto item = params->at(i);
+
                 Parameter param;
-                param.name = item["name"].as<std::string>();
+                param.name = item->at("name")->as<std::string>();
                 param.type = mccore::STR_VALUETYPE_MAP.at(
-                    item["type"].as<std::string>());
+                    item->at("type")->as<std::string>());
 
                 params_.push_back(std::move(param));
             }
         }
 
-        const auto& returnType = node["return_type"];
-        if (returnType != nullptr) {
+        auto returnType = node->at("return_type");
+        if (returnType) {
             returnType_ =
-                mccore::STR_VALUETYPE_MAP.at(returnType.as<std::string>());
+                mccore::STR_VALUETYPE_MAP.at(returnType->as<std::string>());
         }
     }
 
@@ -99,7 +102,7 @@ private:
 };
 
 
-FunctionNode::FunctionNode(const YAML::Node& node)
+FunctionNode::FunctionNode(const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(node)) {
 }
 

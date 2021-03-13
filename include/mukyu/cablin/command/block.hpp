@@ -2,9 +2,8 @@
 
 #include <mukyu/cablin/core/command.hpp>
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/value.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -16,7 +15,7 @@ const std::string COMMANDBLOCK_KEY = "block";
 
 class CommandBlock : public mukyu::cablin::core::Command {
 public:
-    CommandBlock(const YAML::Node& node);
+    CommandBlock(const mukyu::cablin::core::ConfigPtr& node);
     ~CommandBlock();
 
     mukyu::cablin::core::Value execute(

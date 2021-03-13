@@ -21,9 +21,10 @@ namespace mcexpr = mukyu::cablin::expr;
 
 class CommandAssign::Impl {
 public:
-    Impl(const YAML::Node& node) : source_(mcexpr::createExpr(node["source"])) {
+    Impl(const mccore::ConfigPtr& node)
+        : source_(mcexpr::createExpr(node->at("source"))) {
         // parsing <package>::<name>
-        auto target = node["target"].as<std::string>();
+        auto target = node->at("target")->as<std::string>();
         std::tie(varPackage_, target_) = mccommon::splitPackage(target);
     }
 
@@ -50,7 +51,7 @@ private:
     mccore::ExprPtr source_;
 };
 
-CommandAssign::CommandAssign(const YAML::Node& node)
+CommandAssign::CommandAssign(const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(node)) {
 }
 

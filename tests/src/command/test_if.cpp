@@ -1,10 +1,14 @@
-#include <gtest/gtest.h>
+#include <mukyu/cablin/config/yamlconfig.hpp>
 
 #include <mukyu/cablin/command/if.hpp>
+
 #include <mukyu/cablin/core/controller.hpp>
+
+#include <gtest/gtest.h>
 
 namespace mccmd = mukyu::cablin::command;
 namespace mccore = mukyu::cablin::core;
+namespace mcconf = mukyu::cablin::config;
 
 TEST(COMMAND_IF, COMMAND_IF_WORK_THEN) {
     std::string body = R"(
@@ -20,10 +24,10 @@ then:
           type: bool
           value: true
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandIf(node);
+    auto commandIf = mccmd::CommandIf(conf);
 
     mccore::Controller controller;
     controller.addLocalVar("work", false);
@@ -47,11 +51,11 @@ else:
           type: bool
           value: true
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     std::string package = "main";
 
-    auto commandIf = mccmd::CommandIf(node);
+    auto commandIf = mccmd::CommandIf(conf);
 
     mccore::Controller controller;
     controller.addLocalVar("work", false);
