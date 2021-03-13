@@ -4,10 +4,9 @@
 
 #include <mukyu/cablin/core/command.hpp>
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/config.hpp>
 
 #include <mukyu/cablin/expr/factory.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -19,7 +18,7 @@ const std::string COMMANDRETURN_KEY = "return";
 
 class CommandReturn : public mukyu::cablin::core::Command {
 public:
-    CommandReturn(const YAML::Node& node)
+    CommandReturn(const mukyu::cablin::core::ConfigPtr& node)
         : expr_(mukyu::cablin::expr::createExpr(node)) {
     }
 

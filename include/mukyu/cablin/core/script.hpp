@@ -1,9 +1,8 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/value.hpp>
 #include <mukyu/cablin/core/package.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 #include <vector>
 #include <string>
@@ -26,7 +25,8 @@ public:
 
     void addFile(const std::string& filename);
 
-    void addYamlNode(const std::string& name, const YAML::Node& root);
+    void addYamlNode(const std::string& name,
+                     const mukyu::cablin::core::ConfigPtr& root);
 
     void addPackage(PackagePtr package);
 

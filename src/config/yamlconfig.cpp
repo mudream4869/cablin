@@ -25,6 +25,9 @@ public:
 YamlConfig::YamlConfig() : impl_(std::make_unique<Impl>()) {
 }
 
+YamlConfig::~YamlConfig() {
+}
+
 void YamlConfig::loadFromFile(const std::string& filename) {
     impl_->node = YAML::LoadFile(filename);
 }
@@ -38,8 +41,13 @@ mccore::ConfigPtr YamlConfig::at(const std::string& key) const {
         throw mccore::ConfigTypeError("map");
     }
 
-    auto retImpl = std::make_unique<Impl>(impl_->node[key]);
-    return createByImpl(std::move(retImpl));
+    auto retNode = impl_->node[key];
+    if (retNode) {
+        auto retImpl = std::make_unique<Impl>(retNode);
+        return createByImpl(std::move(retImpl));
+    }
+
+    return nullptr;
 }
 
 mccore::ConfigPtr YamlConfig::at(size_t index) const {

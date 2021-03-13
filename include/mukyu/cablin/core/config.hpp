@@ -80,27 +80,27 @@ protected:
 };
 
 template <>
-int Config::as<int>() const {
+inline int Config::as<int>() const {
     return asInt();
 }
 
 template <>
-int64_t Config::as<int64_t>() const {
+inline int64_t Config::as<int64_t>() const {
     return asInt64();
 }
 
 template <>
-std::string Config::as<std::string>() const {
+inline std::string Config::as<std::string>() const {
     return asString();
 }
 
 template <>
-float Config::as<float>() const {
+inline float Config::as<float>() const {
     return asInt();
 }
 
 template <>
-bool Config::as<bool>() const {
+inline bool Config::as<bool>() const {
     return asBool();
 }
 

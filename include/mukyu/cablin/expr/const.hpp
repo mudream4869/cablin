@@ -2,9 +2,8 @@
 
 #include <mukyu/cablin/common/yamlutil.hpp>
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/expr.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -19,11 +18,11 @@ public:
     // value = None
     ExprConst() = default;
 
-    ExprConst(const YAML::Node& node) {
+    ExprConst(const mukyu::cablin::core::ConfigPtr& node) {
         auto type = mukyu::cablin::core::STR_VALUETYPE_MAP.at(
-            node["type"].as<std::string>());
+            node->at("type")->as<std::string>());
 
-        v = mukyu::cablin::common::valueNodeToValue(type, node["value"]);
+        v = mukyu::cablin::common::valueNodeToValue(type, node->at("value"));
     }
 
     ~ExprConst() = default;

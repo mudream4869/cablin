@@ -1,8 +1,7 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/expr.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -10,7 +9,8 @@ namespace cablin {
 namespace expr {
 
 
-mukyu::cablin::core::ExprPtr createExpr(const YAML::Node& node);
+mukyu::cablin::core::ExprPtr createExpr(
+    const mukyu::cablin::core::ConfigPtr& node);
 
 
 }  // namespace expr

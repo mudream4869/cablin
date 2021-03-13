@@ -25,15 +25,10 @@ namespace mcfunc = mukyu::cablin::function;
 
 class UserPackage::Impl {
 public:
-    Impl(const std::string& name, const YAML::Node& root) : name_(name) {
+    Impl(const std::string& name, const mukyu::cablin::core::ConfigPtr& root)
+        : name_(name) {
         loadNode(root);
     }
-
-    Impl(const std::string& name, const std::string& filename) : name_(name) {
-        auto root = YAML::LoadFile(filename);
-        loadNode(root);
-    }
-
 
     ~Impl() = default;
 
@@ -58,20 +53,23 @@ public:
     }
 
 private:
-    void loadNode(const YAML::Node& root) {
-        if (!root.IsSequence()) {
+    void loadNode(const mukyu::cablin::core::ConfigPtr& root) {
+        if (!root->isList()) {
             throw mccore::makeParsingException(
-                "Impl::loadNode: should be a list", root.Mark());
+                "Impl::loadNode: should be a list", root->getMark());
         }
 
-        for (const auto& it : root) {
+        size_t size = root->size();
+        for (size_t i = 0; i < size; ++i) {
+            auto it = root->at(i);
             auto key = mccommon::getSingleKey(it);
             if (!key) {
                 throw mccore::makeParsingException(
-                    "Impl::loadNode: node must be single-key-map", it.Mark());
+                    "Impl::loadNode: node must be single-key-map",
+                    it->getMark());
             }
 
-            const auto& obj = it[key.value()];
+            auto obj = it->at(key.value());
 
             if (key == "func") {
                 userFunc_.push_back(
@@ -80,12 +78,12 @@ private:
                 globalCommand_.push_back(
                     std::make_unique<mccmd::CommandGlobalVar>(name_, obj));
             } else if (key == "import") {
-                usedPackages_.push_back(obj.as<std::string>());
+                usedPackages_.push_back(obj->as<std::string>());
             } else {
                 throw mccore::makeParsingException(
                     "Impl::loadNode: " + key.value() +
                         "not match any pacakge command",
-                    it.Mark());
+                    it->getMark());
             }
         }
     }
@@ -99,11 +97,8 @@ private:
     std::vector<std::shared_ptr<mccore::Function>> userFunc_;
 };
 
-UserPackage::UserPackage(const std::string& name, const std::string& filename)
-    : impl_(std::make_unique<Impl>(name, filename)) {
-}
-
-UserPackage::UserPackage(const std::string& name, const YAML::Node& root)
+UserPackage::UserPackage(const std::string& name,
+                         const mukyu::cablin::core::ConfigPtr& root)
     : impl_(std::make_unique<Impl>(name, root)) {
 }
 

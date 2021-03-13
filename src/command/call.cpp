@@ -19,16 +19,18 @@ namespace mcexpr = mukyu::cablin::expr;
 
 class CommandCall::Impl {
 public:
-    Impl(const YAML::Node& node) {
-        const auto& paramsNode = node["params"];
-        if (paramsNode != nullptr) {
-            for (const auto& item : paramsNode) {
+    Impl(const mccore::ConfigPtr& node) {
+        auto paramsNode = node->at("params");
+        if (paramsNode) {
+            auto size = paramsNode->size();
+            for (size_t i = 0; i < size; ++i) {
+                auto item = paramsNode->at(i);
                 params_.push_back(mcexpr::createExpr(item));
             }
         }
 
         // parsing <package>::<name>
-        auto name = node["name"].as<std::string>();
+        auto name = node->at("name")->as<std::string>();
         std::tie(varPackage_, name_) = mccommon::splitPackage(name);
     }
 
@@ -54,7 +56,7 @@ private:
     std::vector<mccore::ExprPtr> params_;
 };
 
-CommandCall::CommandCall(const YAML::Node& node)
+CommandCall::CommandCall(const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(node)) {
 }
 

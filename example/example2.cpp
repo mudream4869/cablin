@@ -2,11 +2,14 @@
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/core/package.hpp>
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/config/yamlconfig.hpp>
+
 #include <mukyu/cablin/function/functor.hpp>
 
 #include <iostream>
 
 namespace mccore = mukyu::cablin::core;
+namespace mcconf = mukyu::cablin::config;
 namespace mcfunc = mukyu::cablin::function;
 
 const std::string MYPACKAGE_NAME = "my";
@@ -70,12 +73,12 @@ int main(int argc, char** argv) {
                 value: Hello world call from script!
 )";
 
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     mccore::Script script(".");
 
     script.addPackage(std::make_shared<MyPackage>());
-    script.addYamlNode("main", node);
+    script.addYamlNode("main", conf);
 
     script.callFunction("main", "hello_world", {});
     return 0;

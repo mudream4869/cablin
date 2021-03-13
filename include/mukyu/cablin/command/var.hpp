@@ -1,8 +1,7 @@
 #pragma once
 
 #include <mukyu/cablin/core/command.hpp>
-
-#include <yaml-cpp/yaml.h>
+#include <mukyu/cablin/core/config.hpp>
 
 #include <memory>
 
@@ -16,7 +15,7 @@ const std::string COMMANDVAR_KEY = "var";
 
 class CommandVar : public mukyu::cablin::core::Command {
 public:
-    CommandVar(const YAML::Node& node);
+    CommandVar(const mukyu::cablin::core::ConfigPtr& node);
     ~CommandVar();
 
     mukyu::cablin::core::Value execute(

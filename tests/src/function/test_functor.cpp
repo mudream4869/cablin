@@ -1,7 +1,8 @@
-#include <gtest/gtest.h>
-
 #include <mukyu/cablin/function/functor.hpp>
+
 #include <mukyu/cablin/core/controller.hpp>
+
+#include <gtest/gtest.h>
 
 namespace mcfunc = mukyu::cablin::function;
 namespace mccore = mukyu::cablin::core;

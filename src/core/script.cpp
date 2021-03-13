@@ -5,6 +5,7 @@
 
 #include <mukyu/cablin/package/factory.hpp>
 #include <mukyu/cablin/package/userdefine.hpp>
+#include <mukyu/cablin/config/yamlconfig.hpp>
 
 
 #include <vector>
@@ -18,6 +19,8 @@ namespace core {
 
 
 namespace mcpkg = mukyu::cablin::package;
+namespace mccore = mukyu::cablin::core;
+namespace mcconf = mukyu::cablin::config;
 
 
 const std::string MAINFUNCTION_NAME = "main";
@@ -31,17 +34,18 @@ public:
 
     void addFile(const std::string& filename) {
         auto stem = std::filesystem::path(filename).stem();
-        auto pkg =
-            std::make_shared<mcpkg::UserPackage>(stem.string(), filename);
+        auto conf = mcconf::createYAMLConfigFromFile(filename);
+        auto pkg = std::make_shared<mcpkg::UserPackage>(stem.string(), conf);
         addPackage(std::move(pkg));
     }
 
     void addFile(const std::string& name, const std::string& filename) {
-        auto pkg = std::make_shared<mcpkg::UserPackage>(name, filename);
+        auto conf = mcconf::createYAMLConfigFromFile(filename);
+        auto pkg = std::make_shared<mcpkg::UserPackage>(name, conf);
         addPackage(std::move(pkg));
     }
 
-    void addYamlNode(const std::string& name, const YAML::Node& root) {
+    void addYamlNode(const std::string& name, const mccore::ConfigPtr& root) {
         auto pkg = std::make_shared<mcpkg::UserPackage>(name, root);
         addPackage(std::move(pkg));
     }
@@ -67,8 +71,8 @@ public:
         try {
             pkg = mcpkg::createBuiltinPackage(name);
         } catch (const CablinIdentifierNotFoundException&) {
-            pkg =
-                std::make_shared<mcpkg::UserPackage>(name, name + YAML_FILEEXT);
+            auto conf = mcconf::createYAMLConfigFromFile(name + YAML_FILEEXT);
+            pkg = std::make_shared<mcpkg::UserPackage>(name, conf);
         }
 
         addPackage(std::move(pkg));
@@ -104,7 +108,8 @@ void Script::addFile(const std::string& filename) {
     impl_->addFile(filename);
 }
 
-void Script::addYamlNode(const std::string& name, const YAML::Node& root) {
+void Script::addYamlNode(const std::string& name,
+                         const mukyu::cablin::core::ConfigPtr& root) {
     impl_->addYamlNode(name, root);
 }
 

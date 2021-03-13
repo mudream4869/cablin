@@ -2,9 +2,8 @@
 
 #include <mukyu/cablin/core/command.hpp>
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/value.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -16,7 +15,7 @@ const std::string COMMANDWHILE_KEY = "while";
 
 class CommandWhile : public mukyu::cablin::core::Command {
 public:
-    CommandWhile(const YAML::Node& node);
+    CommandWhile(const mukyu::cablin::core::ConfigPtr& node);
     ~CommandWhile();
 
     mukyu::cablin::core::Value execute(

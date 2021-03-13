@@ -27,14 +27,14 @@ namespace mccore = mukyu::cablin::core;
 namespace mccommon = mukyu::cablin::common;
 
 
-mccore::CommandPtr createCommand(const YAML::Node& node) {
+mccore::CommandPtr createCommand(const mccore::ConfigPtr& node) {
     auto key = mccommon::getSingleKey(node);
     if (!key) {
         throw mccore::makeParsingException(
-            "createCommand: node must be single-key-map", node.Mark());
+            "createCommand: node must be single-key-map", node->getMark());
     }
 
-    const auto& nodeValue = node[key.value()];
+    auto nodeValue = node->at(key.value());
 
     if (key == COMMANDVAR_KEY) {
         return std::make_unique<CommandVar>(nodeValue);
@@ -57,19 +57,21 @@ mccore::CommandPtr createCommand(const YAML::Node& node) {
     }
 
     throw mccore::makeParsingException(
-        "createCommand: cannot specify command: " + key.value(), node.Mark());
+        "createCommand: cannot specify command: " + key.value(),
+        node->getMark());
 }
 
-std::vector<mccore::CommandPtr> createCommandList(const YAML::Node& node) {
-    if (node == nullptr) {
+std::vector<mccore::CommandPtr> createCommandList(
+    const mccore::ConfigPtr& node) {
+    if (!node) {
         return {};
     }
 
-    size_t sz = node.size();
+    size_t sz = node->size();
     std::vector<mccore::CommandPtr> ret;
 
     for (size_t i = 0; i < sz; ++i) {
-        ret.emplace_back(createCommand(node[i]));
+        ret.emplace_back(createCommand(node->at(i)));
     }
     return ret;
 }

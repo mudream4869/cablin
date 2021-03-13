@@ -13,7 +13,7 @@ namespace config {
 class YamlConfig : public mukyu::cablin::core::Config {
 public:
     YamlConfig();
-    ~YamlConfig() = default;
+    ~YamlConfig();
 
     void loadFromFile(const std::string& filename);
     void loadFromString(const std::string& cont);
@@ -50,6 +50,21 @@ private:
     static std::unique_ptr<YamlConfig> createByImpl(
         const std::unique_ptr<Impl>& impl) = delete;
 };
+
+
+inline mukyu::cablin::core::ConfigPtr createYAMLConfigFromFile(
+    const std::string& filename) {
+    auto conf = std::make_unique<YamlConfig>();
+    conf->loadFromFile(filename);
+    return conf;
+}
+
+inline mukyu::cablin::core::ConfigPtr createYAMLConfigFromString(
+    const std::string& cont) {
+    auto conf = std::make_unique<YamlConfig>();
+    conf->loadFromString(cont);
+    return conf;
+}
 
 
 }  // namespace config

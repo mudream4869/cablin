@@ -1,10 +1,9 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/expr.hpp>
 
 #include <mukyu/cablin/command/call.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 #include <memory>
 
@@ -18,7 +17,7 @@ const std::string EXPRCALL_NAME = "call";
 
 class ExprCall : public mukyu::cablin::core::Expr {
 public:
-    ExprCall(const YAML::Node& node);
+    ExprCall(const mukyu::cablin::core::ConfigPtr& node);
     ~ExprCall();
 
     mukyu::cablin::core::Value compute(

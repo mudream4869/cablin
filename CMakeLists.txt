@@ -59,6 +59,7 @@ add_library(cablin
             ${cablin_core_src}
             ${cablin_command_src}
             ${cablin_common_src}
+            ${cablin_config_src}
             ${cablin_function_src}
             ${cablin_package_src}
             ${cablin_expr_src})
