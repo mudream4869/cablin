@@ -97,9 +97,9 @@ bool YamlConfig::isNull() const {
 std::optional<mccore::ConfigMark> YamlConfig::getMark() const {
     auto nmark = impl_->node.Mark();
     return mccore::ConfigMark{
-        .col = nmark.column,
         .line = nmark.line,
         .pos = nmark.pos,
+        .col = nmark.column,
     };
 }
 
