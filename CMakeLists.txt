@@ -6,7 +6,7 @@ if (MSVC)
   string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_MINSIZEREL     ${CMAKE_CXX_FLAGS_MINSIZEREL})
   string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELEASE        ${CMAKE_CXX_FLAGS_RELEASE})
   string(REPLACE "/MD" "/MT" CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
-  add_definitions("/wd4267 /wd4244 /wd4305 /Zc:strictStrings /utf-8")
+  add_definitions("/utf-8")
 endif()
 
 add_subdirectory(third_party/yaml-cpp)
@@ -70,11 +70,22 @@ target_link_libraries(cablin
 
 install(TARGETS cablin
         DESTINATION lib
-        COMPONENT cablin)
+        COMPONENT cablin_dev)
 
 install(DIRECTORY include/mukyu
         DESTINATION include
-        COMPONENT cablin)
+        COMPONENT cablin_dev)
+
+install(TARGETS cablin EXPORT cablinConfig
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+install(EXPORT cablinConfig
+        DESTINATION lib/cmake/cablin
+        NAMESPACE cablin::
+        COMPONENT cablin_dev)
 
 # ----------
 # Interpreter
@@ -96,7 +107,7 @@ add_subdirectory(tests)
 
 set(CPACK_ARCHIVE_FILE_NAME "mukyu-cablin")
 set(CPACK_ARCHIVE_COMPONENT_INSTALL 1)
-set(CPACK_COMPONENTS_ALL cablin)
+set(CPACK_COMPONENTS_ALL cablin_dev)
 
 set(CPACK_GENERATOR "ZIP")
 

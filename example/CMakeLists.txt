@@ -9,3 +9,11 @@ target_link_libraries(example1 cablin)
 add_executable(example2 example2.cpp)
 add_dependencies(example2 cablin)
 target_link_libraries(example2 cablin)
+
+install(PROGRAMS example1
+        DESTINATION bin
+        COMPONENT cablin_example)
+
+install(PROGRAMS example2
+        DESTINATION bin
+        COMPONENT cablin_example)
