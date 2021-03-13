@@ -1,8 +1,7 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/value.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 #include <optional>
 #include <string>
@@ -13,20 +12,18 @@ namespace cablin {
 namespace common {
 
 
-inline std::optional<std::string> getSingleKey(const YAML::Node& node) {
-    if (!node.IsMap() || node.size() != 1) {
+inline std::optional<std::string> getSingleKey(
+    const mukyu::cablin::core::ConfigPtr& node) {
+    if (!node->isMap() || node->size() != 1) {
         return {};
     }
 
-    for (const auto& it : node) {
-        return it.first.as<std::string>();
-    }
-
-    return {};
+    return node->keys()[0];
 }
 
-mukyu::cablin::core::Value valueNodeToValue(mukyu::cablin::core::ValueType type,
-                                            const YAML::Node& valueNode);
+mukyu::cablin::core::Value valueNodeToValue(
+    mukyu::cablin::core::ValueType type,
+    const mukyu::cablin::core::ConfigPtr& valueNode);
 
 
 }  // namespace common

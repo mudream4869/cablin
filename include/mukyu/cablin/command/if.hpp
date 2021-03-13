@@ -2,9 +2,8 @@
 
 #include <mukyu/cablin/core/command.hpp>
 #include <mukyu/cablin/core/controller.hpp>
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/value.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 
 namespace mukyu {
@@ -16,7 +15,7 @@ const std::string COMMANDIF_KEY = "if";
 
 class CommandIf : public mukyu::cablin::core::Command {
 public:
-    CommandIf(const YAML::Node& node);
+    CommandIf(const mukyu::cablin::core::ConfigPtr& node);
     ~CommandIf();
 
     mukyu::cablin::core::Value execute(

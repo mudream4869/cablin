@@ -1,10 +1,14 @@
-#include <gtest/gtest.h>
-
 #include <mukyu/cablin/function/node.hpp>
+
 #include <mukyu/cablin/core/controller.hpp>
+
+#include <mukyu/cablin/config/yamlconfig.hpp>
+
+#include <gtest/gtest.h>
 
 namespace mcfunc = mukyu::cablin::function;
 namespace mccore = mukyu::cablin::core;
+namespace mcconf = mukyu::cablin::config;
 
 TEST(FUNCTION_NODE, FUNCTION_NODE_WORK) {
     std::string body = R"(
@@ -18,11 +22,11 @@ body:
           type: bool
           value: true
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     std::string package = "main";
 
-    auto funcNode = std::make_shared<mcfunc::FunctionNode>(node);
+    auto funcNode = std::make_shared<mcfunc::FunctionNode>(conf);
 
     mccore::Controller controller;
     controller.addPackage(package);
@@ -47,11 +51,11 @@ body:
       source:
         get: ok
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     std::string package = "main";
 
-    auto funcNode = std::make_shared<mcfunc::FunctionNode>(node);
+    auto funcNode = std::make_shared<mcfunc::FunctionNode>(conf);
 
     mccore::Controller controller;
     controller.addPackage(package);
@@ -74,11 +78,11 @@ body:
         type: int
         value: 123
 )";
-    auto node = YAML::Load(body);
+    auto conf = mcconf::createYAMLConfigFromString(body);
 
     std::string package = "main";
 
-    auto funcNode = mcfunc::FunctionNode(node);
+    auto funcNode = mcfunc::FunctionNode(conf);
 
     mccore::Controller controller;
     controller.addPackage(package);

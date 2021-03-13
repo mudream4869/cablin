@@ -1,9 +1,8 @@
 #pragma once
 
-#include <mukyu/cablin/core/expr.hpp>
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/controller.hpp>
-
-#include <yaml-cpp/yaml.h>
+#include <mukyu/cablin/core/expr.hpp>
 
 
 namespace mukyu {
@@ -15,7 +14,7 @@ const std::string EXPRGET_NAME = "get";
 
 class ExprGet : public mukyu::cablin::core::Expr {
 public:
-    ExprGet(const YAML::Node& node);
+    ExprGet(const mukyu::cablin::core::ConfigPtr& node);
 
     ~ExprGet();
 

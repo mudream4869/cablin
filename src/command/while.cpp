@@ -20,9 +20,9 @@ namespace mcexpr = mukyu::cablin::expr;
 
 class CommandWhile::Impl {
 public:
-    Impl(const YAML::Node& node)
-        : cond_(mcexpr::createExpr(node["condition"])),
-          body_(createCommandList(node["body"])) {
+    Impl(const mccore::ConfigPtr& node)
+        : cond_(mcexpr::createExpr(node->at("condition"))),
+          body_(createCommandList(node->at("body"))) {
     }
 
     mccore::Value execute(mccore::Controller* controller) {
@@ -47,7 +47,7 @@ private:
     std::vector<mccore::CommandPtr> body_;
 };
 
-CommandWhile::CommandWhile(const YAML::Node& node)
+CommandWhile::CommandWhile(const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(node)) {
 }
 

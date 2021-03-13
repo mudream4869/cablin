@@ -1,10 +1,9 @@
 #pragma once
 
+#include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/controller.hpp>
 #include <mukyu/cablin/core/function.hpp>
 #include <mukyu/cablin/core/value.hpp>
-
-#include <yaml-cpp/yaml.h>
 
 #include <memory>
 #include <string>
@@ -18,7 +17,7 @@ namespace function {
 
 class FunctionNode : public mukyu::cablin::core::Function {
 public:
-    FunctionNode(const YAML::Node& node);
+    FunctionNode(const mukyu::cablin::core::ConfigPtr& node);
 
     ~FunctionNode();
 

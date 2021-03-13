@@ -19,10 +19,11 @@ namespace mccommon = mukyu::cablin::common;
 
 class CommandGlobalVar::Impl {
 public:
-    Impl(const std::string& package, const YAML::Node& node)
-        : name_(node["name"].as<std::string>()), package_(package) {
-        const auto& valueNode = node["default_value"];
-        type_ = mccore::STR_VALUETYPE_MAP.at(node["type"].as<std::string>());
+    Impl(const std::string& package, const mccore::ConfigPtr& node)
+        : name_(node->at("name")->as<std::string>()), package_(package) {
+        auto valueNode = node->at("default_value");
+        type_ =
+            mccore::STR_VALUETYPE_MAP.at(node->at("type")->as<std::string>());
         defaultValue_ = mccommon::valueNodeToValue(type_, valueNode);
     }
 
@@ -41,7 +42,7 @@ private:
 };
 
 CommandGlobalVar::CommandGlobalVar(const std::string& package,
-                                   const YAML::Node& node)
+                                   const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(package, node)) {
 }
 

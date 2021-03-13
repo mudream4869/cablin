@@ -45,6 +45,9 @@ set(cablin_expr_src
     src/expr/getvar.cpp
     src/expr/factory.cpp)
 
+set(cablin_config_src
+    src/config/yamlconfig.cpp)
+
 set(cablin_package_src
     src/package/builtin_io.cpp
     src/package/builtin_op.cpp
@@ -56,6 +59,7 @@ add_library(cablin
             ${cablin_core_src}
             ${cablin_command_src}
             ${cablin_common_src}
+            ${cablin_config_src}
             ${cablin_function_src}
             ${cablin_package_src}
             ${cablin_expr_src})

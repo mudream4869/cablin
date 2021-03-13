@@ -19,8 +19,8 @@ namespace mccore = mukyu::cablin::core;
 namespace mccommon = mukyu::cablin::common;
 
 
-ExprGet::ExprGet(const YAML::Node& node) {
-    auto varName = node.as<std::string>();
+ExprGet::ExprGet(const mccore::ConfigPtr& node) {
+    auto varName = node->as<std::string>();
     std::tie(packageName_, varName_) = mccommon::splitPackage(varName);
 }
 
