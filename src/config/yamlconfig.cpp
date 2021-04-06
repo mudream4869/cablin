@@ -96,11 +96,11 @@ bool YamlConfig::isNull() const {
 
 std::optional<mccore::ConfigMark> YamlConfig::getMark() const {
     auto nmark = impl_->node.Mark();
-    mccore::ConfigMark retMark;
-    retMark.line = nmark.line;
-    retMark.col = nmark.column;
-    retMark.pos = nmark.pos;
-    return retMark;
+    return mccore::ConfigMark{
+        .line = nmark.line,
+        .pos = nmark.pos,
+        .col = nmark.column,
+    };
 }
 
 int YamlConfig::asInt() const {

@@ -160,114 +160,35 @@ inline Value Value::cast<float>() const {
 }
 
 inline Value operator+(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator+: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::FLOAT:
-        return v1.as<float>() + v2.as<float>();
-    case ValueType::INT:
-        return v1.as<int>() + v2.as<int>();
-    case ValueType::INT64:
-        return v1.as<int64_t>() + v2.as<int64_t>();
-    case ValueType::STRING:
-        return v1.as<std::string>() + v2.as<std::string>();
-    default:
-        throw CablinRuntimeException("Value::operator+: type of v1 and v2 cannot apply +");
-    }
+    return v1.as<int>() + v2.as<int>();
 }
 
 inline Value operator-(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator-: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::FLOAT:
-        return v1.as<float>() - v2.as<float>();
-    case ValueType::INT:
-        return v1.as<int>() - v2.as<int>();
-    case ValueType::INT64:
-        return v1.as<int64_t>() - v2.as<int64_t>();
-    default:
-        throw CablinRuntimeException("Value::operator-: type of v1 and v2 cannot apply -");
-    }
+    return v1.as<int>() - v2.as<int>();
 }
 
 inline Value operator*(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator*: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::FLOAT:
-        return v1.as<float>() * v2.as<float>();
-    case ValueType::INT:
-        return v1.as<int>() * v2.as<int>();
-    case ValueType::INT64:
-        return v1.as<int64_t>() * v2.as<int64_t>();
-    default:
-        throw CablinRuntimeException("Value::operator*: type of v1 and v2 cannot apply *");
-    }
+    return v1.as<int>() * v2.as<int>();
 }
 
 inline Value operator/(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator/: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::FLOAT:
-        if (v2.as<float>() == 0) {
-            // TODO: check eps?
-            throw CablinRuntimeException("Value::operator/: zero division");
-        }
-        return v1.as<float>() / v2.as<float>();
-    case ValueType::INT:
-        if (v2.as<int>() == 0) {
-            throw CablinRuntimeException("Value::operator/: zero division");
-        }
-        return v1.as<int>() / v2.as<int>();
-    case ValueType::INT64:
-        if (v2.as<int64_t>() == 0) {
-            throw CablinRuntimeException("Value::operator/: zero division");
-        }
-        return v1.as<int64_t>() / v2.as<int64_t>();
-    default:
-        throw CablinRuntimeException("Value::operator/: type of v1 and v2 cannot apply *");
-    }
+    return v1.as<int>() / v2.as<int>();
 }
 
 inline Value operator>(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator>: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::FLOAT:
-        return v1.as<float>() > v2.as<float>();
-    case ValueType::INT:
-        return v1.as<int>() > v2.as<int>();
-    case ValueType::INT64:
-        return v1.as<int64_t>() > v2.as<int64_t>();
-    case ValueType::STRING:
-        return v1.as<std::string>() > v2.as<std::string>();
-    default:
-        throw CablinRuntimeException("Value::operator>: type of v1 and v2 cannot compare");
-    }
-}
-
-inline Value operator<(const Value& v1, const Value& v2) {
-    return v2 > v1;
+    return v1.as<int>() > v2.as<int>();
 }
 
 inline Value operator>=(const Value& v1, const Value& v2) {
-    return !(v2 < v1).as<bool>();
+    return v1.as<int>() >= v2.as<int>();
+}
+
+inline Value operator<(const Value& v1, const Value& v2) {
+    return v1.as<int>() < v2.as<int>();
 }
 
 inline Value operator<=(const Value& v1, const Value& v2) {
-    return !(v1 > v2).as<bool>();
+    return v1.as<int>() <= v2.as<int>();
 }
 
 inline Value operator==(const Value& v1, const Value& v2) noexcept {
@@ -294,24 +215,7 @@ inline Value operator==(const Value& v1, const Value& v2) noexcept {
 }
 
 inline Value operator%(const Value& v1, const Value& v2) {
-    if (v1.type() != v2.type()) {
-        throw CablinRuntimeException("Value::operator%: type of v1 and v2 not equal");
-    }
-
-    switch (v1.type()) {
-    case ValueType::INT:
-        if (v2.as<int>() == 0) {
-            throw CablinRuntimeException("Value::operator%: zero division");
-        }
-        return v1.as<int>() % v2.as<int>();
-    case ValueType::INT64:
-        if (v2.as<int64_t>() == 0) {
-            throw CablinRuntimeException("Value::operator%: zero division");
-        }
-        return v1.as<int64_t>() % v2.as<int64_t>();
-    default:
-        throw CablinRuntimeException("Value::operator%: type of v1 and v2 cannot apply %");
-    }
+    return v1.as<int>() % v2.as<int>();
 }
 
 inline Value operator&&(const Value& v1, const Value& v2) {
