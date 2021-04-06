@@ -89,7 +89,7 @@ inline std::string Config::as<std::string>() const {
 
 template <>
 inline float Config::as<float>() const {
-    return asInt();
+    return asFloat();
 }
 
 template <>
