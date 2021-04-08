@@ -26,8 +26,8 @@ mccore::ExprPtr createExpr(const mccore::ConfigPtr& node) {
             return std::make_unique<mcexpr::ExprConst>();
         }
 
-        throw mccore::makeParsingException(
-            "createExpr: should be single-key-map", node->getMark());
+        throw mccore::CablinParsingException(
+            "createExpr: should be single-key-map", node->path());
     }
 
     auto obj = node->at(key.value());
@@ -40,8 +40,8 @@ mccore::ExprPtr createExpr(const mccore::ConfigPtr& node) {
         return std::make_unique<mcexpr::ExprCall>(obj);
     }
 
-    throw mccore::makeParsingException(
-        "createExpr: " + key.value() + " is not an expr type", node->getMark());
+    throw mccore::CablinParsingException(
+        "createExpr: " + key.value() + " is not an expr type", node->path());
 }
 
 

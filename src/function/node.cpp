@@ -31,7 +31,8 @@ private:
 public:
     Impl(const mccore::ConfigPtr& node)
         : name_(node->at("name")->as<std::string>()),
-          body_(mccmd::createCommandList(node->at("body"))) {
+          body_(mccmd::createCommandList(node->at("body"))),
+          path_(node->path()) {
         auto params = node->at("params");
         if (params) {
             size_t size = params->size();
@@ -64,7 +65,7 @@ public:
                           mccore::ValueList params) {
         if (params.size() != params_.size()) {
             throw mccore::CablinRuntimeException(
-                "FunctionNode::Impl: number of parameters not equal");
+                "FunctionNode::Impl: number of parameters not equal", path_);
         }
 
         for (size_t i = 0; i < params_.size(); ++i) {
@@ -72,7 +73,8 @@ public:
             if (p.type != params[i].type()) {
                 throw mccore::CablinRuntimeException(
                     "FunctionNode::Impl: " + std::to_string(i) +
-                    "parameters type not equal");
+                        "parameters type not equal",
+                    path_);
             }
 
             controller->addLocalVar(p.name, params[i]);
@@ -86,7 +88,7 @@ public:
             return rex.returnValue;
         } catch (mccmd::LoopFlowControlException) {
             throw mccore::CablinRuntimeException(
-                "FunctionNode::Impl: catch loop flow control");
+                "FunctionNode::Impl: catch loop flow control", path_);
         }
 
         // return zero-value;
@@ -99,6 +101,8 @@ private:
     std::string name_;
     std::vector<mccore::CommandPtr> body_;
     std::vector<Parameter> params_;
+
+    std::string path_;
 };
 
 

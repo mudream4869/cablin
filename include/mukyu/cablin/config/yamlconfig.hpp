@@ -31,7 +31,7 @@ public:
     bool isScalar() const;
     bool isNull() const;
 
-    std::optional<mukyu::cablin::core::ConfigMark> getMark() const;
+    virtual std::string path() const;
 
 protected:
     int asInt() const;

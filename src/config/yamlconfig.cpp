@@ -2,6 +2,8 @@
 
 #include <yaml-cpp/yaml.h>
 
+#include <string>
+
 
 namespace mukyu {
 namespace cablin {
@@ -11,15 +13,38 @@ namespace config {
 namespace mccore = mukyu::cablin::core;
 
 
+namespace {
+
+
+const std::string NODE_PATH_SPLITTER = ".";
+
+std::string pathJoin(const std::string& path1, const std::string& path2) {
+    if (path1 == "") {
+        return path2;
+    }
+
+    if (path2 == "") {
+        return path1;
+    }
+
+    return path1 + NODE_PATH_SPLITTER + path2;
+}
+
+
+}
+
+
 class YamlConfig::Impl {
 public:
     Impl() = default;
     ~Impl() = default;
 
-    explicit Impl(const YAML::Node& node) : node(node) {
+    Impl(const YAML::Node& node, const std::string& path)
+        : node(node), path(path) {
     }
 
     YAML::Node node;
+    std::string path;
 };
 
 YamlConfig::YamlConfig() : impl_(std::make_unique<Impl>()) {
@@ -38,12 +63,13 @@ void YamlConfig::loadFromString(const std::string& cont) {
 
 mccore::ConfigPtr YamlConfig::at(const std::string& key) const {
     if (!impl_->node.IsMap()) {
-        throw mccore::ConfigTypeError("map");
+        throw mccore::ConfigTypeError("node is not a map", impl_->path);
     }
 
     auto retNode = impl_->node[key];
     if (retNode) {
-        auto retImpl = std::make_unique<Impl>(retNode);
+        auto retImpl =
+            std::make_unique<Impl>(retNode, pathJoin(impl_->path, key));
         return createByImpl(std::move(retImpl));
     }
 
@@ -52,15 +78,20 @@ mccore::ConfigPtr YamlConfig::at(const std::string& key) const {
 
 mccore::ConfigPtr YamlConfig::at(size_t index) const {
     if (!impl_->node.IsSequence()) {
-        throw mccore::ConfigTypeError("list");
+        throw mccore::ConfigTypeError("node is not a list", impl_->path);
     }
 
-    return createByImpl(std::make_unique<Impl>(impl_->node[index]));
+    auto retNode = impl_->node[index];
+    auto key = "[" + std::to_string(index) + "]";
+    auto retImpl = std::make_unique<Impl>(retNode, pathJoin(impl_->path, key));
+
+    return createByImpl(std::move(retImpl));
 }
 
 size_t YamlConfig::size() const {
     if (!impl_->node.IsSequence() && !impl_->node.IsMap()) {
-        throw mccore::ConfigTypeError("list or map");
+        throw mccore::ConfigTypeError("node is not a list or a map",
+                                      impl_->path);
     }
 
     return impl_->node.size();
@@ -68,7 +99,7 @@ size_t YamlConfig::size() const {
 
 std::vector<std::string> YamlConfig::keys() const {
     if (!impl_->node.IsMap()) {
-        throw mccore::ConfigTypeError("map");
+        throw mccore::ConfigTypeError("node is not a map", impl_->path);
     }
 
     std::vector<std::string> ret;
@@ -94,18 +125,13 @@ bool YamlConfig::isNull() const {
     return impl_->node.IsNull();
 }
 
-std::optional<mccore::ConfigMark> YamlConfig::getMark() const {
-    auto nmark = impl_->node.Mark();
-    return mccore::ConfigMark{
-        .line = nmark.line,
-        .pos = nmark.pos,
-        .col = nmark.column,
-    };
+std::string YamlConfig::path() const {
+    return impl_->path;
 }
 
 int YamlConfig::asInt() const {
     if (!impl_->node.IsScalar()) {
-        throw mccore::ConfigTypeError("scalar");
+        throw mccore::ConfigTypeError("node is not a scalar", impl_->path);
     }
 
     return impl_->node.as<int>();
@@ -113,7 +139,7 @@ int YamlConfig::asInt() const {
 
 int64_t YamlConfig::asInt64() const {
     if (!impl_->node.IsScalar()) {
-        throw mccore::ConfigTypeError("scalar");
+        throw mccore::ConfigTypeError("node is not a scalar", impl_->path);
     }
 
     return impl_->node.as<int64_t>();
@@ -121,7 +147,7 @@ int64_t YamlConfig::asInt64() const {
 
 std::string YamlConfig::asString() const {
     if (!impl_->node.IsScalar()) {
-        throw mccore::ConfigTypeError("scalar");
+        throw mccore::ConfigTypeError("node is not a scalar", impl_->path);
     }
 
     return impl_->node.as<std::string>();
@@ -129,7 +155,7 @@ std::string YamlConfig::asString() const {
 
 float YamlConfig::asFloat() const {
     if (!impl_->node.IsScalar()) {
-        throw mccore::ConfigTypeError("scalar");
+        throw mccore::ConfigTypeError("node is not a scalar", impl_->path);
     }
 
     return impl_->node.as<float>();
@@ -137,7 +163,7 @@ float YamlConfig::asFloat() const {
 
 bool YamlConfig::asBool() const {
     if (!impl_->node.IsScalar()) {
-        throw mccore::ConfigTypeError("scalar");
+        throw mccore::ConfigTypeError("node is not a scalar", impl_->path);
     }
 
     return impl_->node.as<bool>();

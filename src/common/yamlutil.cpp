@@ -44,7 +44,7 @@ mccore::Value valueNodeToValue(
         "valueNodeToValue: " + std::to_string(static_cast<int>(type)) +
         " is not an value type";
 
-    throw mccore::makeParsingException(msg, valueNode->getMark());
+    throw mccore::CablinParsingException(msg, valueNode->path());
 }
 
 
