@@ -44,6 +44,7 @@ set(cablin_expr_src
     src/expr/call.cpp
     src/expr/getvar.cpp
     src/expr/unary_op.cpp
+    src/expr/binary_op.cpp
     src/expr/factory.cpp)
 
 set(cablin_config_src

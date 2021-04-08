@@ -14,7 +14,8 @@ set(cablin_test_command_src
 
 set(cablin_test_expr_src
     "src/expr/test_const.cpp"
-    "src/expr/test_unary_op.cpp")
+    "src/expr/test_unary_op.cpp"
+    "src/expr/test_binary_op.cpp")
 
 set(cablin_test_function_src
     "src/function/test_functor.cpp"
