@@ -4,7 +4,6 @@
 
 #include <mukyu/cablin/package/builtin_cast.hpp>
 #include <mukyu/cablin/package/builtin_io.hpp>
-#include <mukyu/cablin/package/builtin_op.hpp>
 
 
 namespace mukyu {
@@ -19,8 +18,6 @@ namespace mcpkg = mukyu::cablin::package;
 mccore::PackagePtr createBuiltinPackage(const std::string& name) {
     if (name == mcpkg::BUILTIN_IO_NAME) {
         return std::make_shared<mcpkg::BuiltinIOPackage>();
-    } else if (name == mcpkg::BUILTIN_OP_NAME) {
-        return std::make_shared<mcpkg::BuiltinOperatorPackage>();
     } else if (name == mcpkg::BUILTIN_CAST_NAME) {
         return std::make_shared<mcpkg::BuiltinCastPackage>();
     }
