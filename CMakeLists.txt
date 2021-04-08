@@ -43,6 +43,8 @@ set(cablin_function_src
 set(cablin_expr_src
     src/expr/call.cpp
     src/expr/getvar.cpp
+    src/expr/unary_op.cpp
+    src/expr/binary_op.cpp
     src/expr/factory.cpp)
 
 set(cablin_config_src
@@ -50,7 +52,6 @@ set(cablin_config_src
 
 set(cablin_package_src
     src/package/builtin_io.cpp
-    src/package/builtin_op.cpp
     src/package/builtin_cast.cpp
     src/package/factory.cpp
     src/package/userdefine.cpp)

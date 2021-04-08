@@ -1,4 +1,3 @@
-- import: op
 - import: io
 
 - func:
@@ -38,12 +37,9 @@
       - assign:
           target: a
           source:
-            # should be command:call
-            call:
-              name: op::plus
-              params:
-                - get: a
-                - get: b
+            plus:
+              - get: a
+              - get: b
 
       # print(a)
       - call:

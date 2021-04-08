@@ -1,5 +1,4 @@
 - import: io
-- import: op
 
 - func:
     name: main
@@ -12,13 +11,11 @@
 
       - while:
           condition:
-            call:
-              name: op::greater
-              params:
-                - get: a
-                - const:
-                    type: int
-                    value: 1
+            greater:
+              - get: a
+              - const:
+                  type: int
+                  value: 1
           body:
             # print(a)
             - call:
@@ -30,10 +27,8 @@
             - assign:
                 target: a
                 source:
-                  call:
-                    name: op::minus
-                    params:
-                      - get: a
-                      - const:
-                          type: int
-                          value: 1
+                  minus:
+                    - get: a
+                    - const:
+                        type: int
+                        value: 1
