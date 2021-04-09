@@ -1,9 +1,10 @@
 #pragma once
 
-#include <functional>
 #include <mukyu/cablin/common/yamlutil.hpp>
 #include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/expr.hpp>
+
+#include <functional>
 #include <unordered_map>
 
 
@@ -16,10 +17,10 @@ using UnaryOperatorFunctionType = std::function<mukyu::cablin::core::Value(
     const mukyu::cablin::core::Value&)>;
 
 const std::unordered_map<std::string, UnaryOperatorFunctionType>
-    FUNCTION_UNARY_OPERATOR_FUNC_MAP = {{
-        "not",
-        mukyu::cablin::core::operator!},
-    };
+    FUNCTION_UNARY_OPERATOR_FUNC_MAP = {
+        {"not", [](const auto& v) { return !v; }},
+        {"neg", [](const auto& v) { return -v; }},
+};
 
 
 class ExprUnaryOperator : public mukyu::cablin::core::Expr {
