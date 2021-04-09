@@ -1,7 +1,5 @@
 #pragma once
 
-#include <mukyu/cablin/core/config.hpp>
-
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -14,21 +12,28 @@ namespace core {
 
 class CablinParsingException : public std::runtime_error {
 public:
-    CablinParsingException(const std::string& msg, int line, int pos,
-                           int column)
-        : std::runtime_error(msg), column(column), line(line), pos(pos) {
+    CablinParsingException(const std::string& msg, const std::string& path)
+        : std::runtime_error(msg), path(path) {
     }
+
     ~CablinParsingException() = default;
 
-    int line;
-    int pos;
-    int column;
+    std::string path;
 };
 
 class CablinRuntimeException : public std::runtime_error {
 public:
-    CablinRuntimeException(const std::string& msg) : std::runtime_error(msg) {
+    explicit CablinRuntimeException(const std::string& msg)
+        : std::runtime_error(msg) {
     }
+
+    CablinRuntimeException(const std::string& msg, const std::string& path)
+        : std::runtime_error(msg), path(path) {
+    }
+
+    ~CablinRuntimeException() = default;
+
+    std::string path;
 };
 
 class CablinIdentifierNotFoundException : public std::out_of_range {
@@ -36,17 +41,16 @@ public:
     explicit CablinIdentifierNotFoundException(const std::string& msg)
         : std::out_of_range(msg) {
     }
-};
 
-inline CablinParsingException makeParsingException(
-    const std::string& msg,
-    std::optional<mukyu::cablin::core::ConfigMark> maybeMark) {
-    if (maybeMark) {
-        auto mark = maybeMark.value();
-        return CablinParsingException(msg, mark.line, mark.pos, mark.col);
+    CablinIdentifierNotFoundException(const std::string& msg,
+                                      const std::string& path)
+        : std::out_of_range(msg), path(path) {
     }
-    return CablinParsingException(msg, 0, 0, 0);
-}
+
+    ~CablinIdentifierNotFoundException() = default;
+
+    std::string path;
+};
 
 
 }  // namespace core

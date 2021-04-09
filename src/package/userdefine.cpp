@@ -55,8 +55,8 @@ public:
 private:
     void loadNode(const mukyu::cablin::core::ConfigPtr& root) {
         if (!root->isList()) {
-            throw mccore::makeParsingException(
-                "Impl::loadNode: should be a list", root->getMark());
+            throw mccore::CablinParsingException(
+                "Impl::loadNode: should be a list", root->path());
         }
 
         size_t size = root->size();
@@ -64,9 +64,9 @@ private:
             auto it = root->at(i);
             auto key = mccommon::getSingleKey(it);
             if (!key) {
-                throw mccore::makeParsingException(
+                throw mccore::CablinParsingException(
                     "Impl::loadNode: node must be single-key-map",
-                    it->getMark());
+                    it->path());
             }
 
             auto obj = it->at(key.value());
@@ -80,10 +80,10 @@ private:
             } else if (key == "import") {
                 usedPackages_.push_back(obj->as<std::string>());
             } else {
-                throw mccore::makeParsingException(
+                throw mccore::CablinParsingException(
                     "Impl::loadNode: " + key.value() +
                         "not match any pacakge command",
-                    it->getMark());
+                    it->path());
             }
         }
     }

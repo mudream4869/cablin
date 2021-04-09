@@ -30,8 +30,8 @@ namespace mccommon = mukyu::cablin::common;
 mccore::CommandPtr createCommand(const mccore::ConfigPtr& node) {
     auto key = mccommon::getSingleKey(node);
     if (!key) {
-        throw mccore::makeParsingException(
-            "createCommand: node must be single-key-map", node->getMark());
+        throw mccore::CablinParsingException(
+            "createCommand: node must be single-key-map", node->path());
     }
 
     auto nodeValue = node->at(key.value());
@@ -56,9 +56,9 @@ mccore::CommandPtr createCommand(const mccore::ConfigPtr& node) {
         return std::make_unique<CommandReturn>(nodeValue);
     }
 
-    throw mccore::makeParsingException(
+    throw mccore::CablinParsingException(
         "createCommand: cannot specify command: " + key.value(),
-        node->getMark());
+        node->path());
 }
 
 std::vector<mccore::CommandPtr> createCommandList(

@@ -12,19 +12,15 @@ namespace cablin {
 namespace core {
 
 
-// ConfigMark marked where config locate in a file
-struct ConfigMark {
-    int line;
-    int pos;
-    int col;
-};
-
 // ConfigTypeError is thrown when config type not match expectation
 class ConfigTypeError : public std::runtime_error {
 public:
-    ConfigTypeError(const std::string& msg) : std::runtime_error(msg) {
+    ConfigTypeError(const std::string& msg, const std::string& path)
+        : std::runtime_error(msg), path(path) {
     }
     ~ConfigTypeError() = default;
+
+    std::string path;
 };
 
 class Config;
@@ -58,11 +54,8 @@ public:
     virtual bool isScalar() const = 0;
     virtual bool isNull() const = 0;
 
-    // When config is reading from a file,
-    // Mark can help user to locate the config
-    virtual std::optional<ConfigMark> getMark() const {
-        return {};
-    }
+    // Return config node's path
+    virtual std::string path() const = 0;
 
     // Read the config node as scalar T
     // support int, int64_t, std::string, float, bool
