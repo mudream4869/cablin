@@ -1,9 +1,10 @@
 #pragma once
 
-#include <functional>
 #include <mukyu/cablin/common/yamlutil.hpp>
 #include <mukyu/cablin/core/config.hpp>
 #include <mukyu/cablin/core/expr.hpp>
+
+#include <functional>
 #include <unordered_map>
 
 
@@ -17,19 +18,21 @@ using BinaryOperatorFunctionType = std::function<mukyu::cablin::core::Value(
 
 const std::unordered_map<std::string, BinaryOperatorFunctionType>
     FUNCTION_BINARY_OPERATOR_FUNC_MAP = {
-        {"plus", mukyu::cablin::core::operator+ },
-        {"minus", mukyu::cablin::core::operator- },
-        {"multiply", mukyu::cablin::core::operator* },
-        {"divide", mukyu::cablin::core::operator/ },
-        {"mod", mukyu::cablin::core::operator% },
-        {"and", mukyu::cablin::core::operator&& },
-        {"or", mukyu::cablin::core::operator|| },
-        {"equal", mukyu::cablin::core::operator== },
-        {"less", mukyu::cablin::core::operator<},
-        {"greater", mukyu::cablin::core::operator> },
-        {"less_equal", mukyu::cablin::core::operator<= },
-        {"greater_equal", mukyu::cablin::core::operator>=},
-    };
+        {"plus", [](const auto& v1, const auto& v2) { return v1 + v2; }},
+        {"minus", [](const auto& v1, const auto& v2) { return v1 - v2; }},
+        {"multiply", [](const auto& v1, const auto& v2) { return v1 * v2; }},
+        {"divide", [](const auto& v1, const auto& v2) { return v1 / v2; }},
+        {"mod", [](const auto& v1, const auto& v2) { return v1 % v2; }},
+        {"and", [](const auto& v1, const auto& v2) { return v1 && v2; }},
+        {"or", [](const auto& v1, const auto& v2) { return v1 || v2; }},
+        {"equal", [](const auto& v1, const auto& v2) { return v1 == v2; }},
+        {"not_equal", [](const auto& v1, const auto& v2) { return v1 != v2; }},
+        {"less", [](const auto& v1, const auto& v2) { return v1 < v2; }},
+        {"greater", [](const auto& v1, const auto& v2) { return v1 > v2; }},
+        {"less_equal", [](const auto& v1, const auto& v2) { return v1 <= v2; }},
+        {"greater_equal",
+         [](const auto& v1, const auto& v2) { return v1 >= v2; }},
+};
 
 
 class ExprBinaryOperator : public mukyu::cablin::core::Expr {

@@ -293,6 +293,14 @@ inline Value operator==(const Value& v1, const Value& v2) noexcept {
     return false;
 }
 
+inline Value operator!=(const Value& v1, const Value& v2) noexcept {
+    if (v1.type() != v2.type()) {
+        return false;
+    }
+
+    return !(v1 == v2).as<bool>();
+}
+
 inline Value operator%(const Value& v1, const Value& v2) {
     if (v1.type() != v2.type()) {
         throw CablinRuntimeException("Value::operator%: type of v1 and v2 are not equal");
@@ -324,6 +332,20 @@ inline Value operator||(const Value& v1, const Value& v2) {
 
 inline Value operator!(const Value& v1) {
     return !v1.as<bool>();
+}
+
+inline Value operator-(const Value& v1) {
+    switch (v1.type()) {
+    case ValueType::FLOAT:
+        return -v1.as<float>();
+    case ValueType::INT:
+        return -v1.as<int>();
+    case ValueType::INT64:
+        return -v1.as<int64_t>();
+    default:
+        throw CablinRuntimeException(
+            "Value::operator-: type of v1 is not numerical");
+    }
 }
 
 
