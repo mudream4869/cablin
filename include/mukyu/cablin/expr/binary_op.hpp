@@ -38,7 +38,7 @@ const std::unordered_map<std::string, BinaryOperatorFunctionType>
 class ExprBinaryOperator : public mukyu::cablin::core::Expr {
 public:
     ExprBinaryOperator(const std::string& name,
-                      const mukyu::cablin::core::ConfigPtr& node);
+                       const mukyu::cablin::core::ConfigPtr& node);
 
     ~ExprBinaryOperator();
 

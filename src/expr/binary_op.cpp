@@ -16,11 +16,10 @@ namespace mccore = mukyu::cablin::core;
 
 class ExprBinaryOperator::Impl {
 public:
-    Impl(const std::string& name, const mccore::ConfigPtr& node):
-        func_(FUNCTION_BINARY_OPERATOR_FUNC_MAP.at(name)),
-        expr1_(createExpr(node->at(0))),
-        expr2_(createExpr(node->at(1))) {
-    
+    Impl(const std::string& name, const mccore::ConfigPtr& node)
+        : func_(FUNCTION_BINARY_OPERATOR_FUNC_MAP.at(name)),
+          expr1_(createExpr(node->at(0))),
+          expr2_(createExpr(node->at(1))) {
     }
 
     ~Impl() = default;
@@ -36,7 +35,7 @@ private:
 };
 
 ExprBinaryOperator::ExprBinaryOperator(const std::string& name,
-                                     const mccore::ConfigPtr& node)
+                                       const mccore::ConfigPtr& node)
     : impl_(std::make_unique<Impl>(name, node)) {
 }
 
