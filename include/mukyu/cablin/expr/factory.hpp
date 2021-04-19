@@ -12,6 +12,10 @@ namespace expr {
 mukyu::cablin::core::ExprPtr createExpr(
     const mukyu::cablin::core::ConfigPtr& node);
 
+// createSimpleExpr only allow operator/const/var expression
+mukyu::cablin::core::ExprPtr createSimpleExpr(
+    const mukyu::cablin::core::ConfigPtr& node);
+
 
 }  // namespace expr
 }  // namespace cablin
