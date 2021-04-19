@@ -25,7 +25,7 @@ public:
             auto size = paramsNode->size();
             for (size_t i = 0; i < size; ++i) {
                 auto item = paramsNode->at(i);
-                params_.push_back(mcexpr::createExpr(item));
+                params_.push_back(mcexpr::createSimpleExpr(item));
             }
         }
 

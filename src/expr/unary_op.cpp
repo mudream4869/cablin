@@ -17,7 +17,7 @@ namespace mccore = mukyu::cablin::core;
 class ExprUnaryOperator::Impl {
 public:
     Impl(const std::string& name, const mccore::ConfigPtr& node)
-        : expr_(createExpr(node)),
+        : expr_(createSimpleExpr(node)),
           func_(FUNCTION_UNARY_OPERATOR_FUNC_MAP.at(name)) {
     }
 

@@ -55,6 +55,43 @@ mccore::ExprPtr createExpr(const mccore::ConfigPtr& node) {
         "createExpr: " + key.value() + " is not an expr type", node->path());
 }
 
+mccore::ExprPtr createSimpleExpr(const mccore::ConfigPtr& node) {
+    auto key = mccommon::getSingleKey(node);
+    if (!key.has_value()) {
+        if (node->isMap() && node->size() == 0) {
+            return std::make_unique<mcexpr::ExprConst>();
+        }
+
+        throw mccore::CablinParsingException(
+            "createSimpleExpr: should be single-key-map", node->path());
+    }
+
+    auto obj = node->at(key.value());
+
+    if (key == mcexpr::EXPRCONST_NAME) {
+        return std::make_unique<mcexpr::ExprConst>(obj);
+    } else if (key == mcexpr::EXPRGET_NAME) {
+        return std::make_unique<mcexpr::ExprGet>(obj);
+    } else if (key == mcexpr::EXPRCALL_NAME) {
+        throw mccore::CablinParsingException(
+            "createSimpleExpr: should not be call", node->path());
+    }
+
+    if (FUNCTION_UNARY_OPERATOR_FUNC_MAP.find(key.value()) !=
+        FUNCTION_UNARY_OPERATOR_FUNC_MAP.end()) {
+        return std::make_unique<mcexpr::ExprUnaryOperator>(key.value(), obj);
+    }
+
+    if (FUNCTION_BINARY_OPERATOR_FUNC_MAP.find(key.value()) !=
+        FUNCTION_BINARY_OPERATOR_FUNC_MAP.end()) {
+        return std::make_unique<mcexpr::ExprBinaryOperator>(key.value(), obj);
+    }
+
+    throw mccore::CablinParsingException(
+        "createSimpleExpr: " + key.value() + " is not an expr type",
+        node->path());
+}
+
 
 }  // namespace expr
 }  // namespace cablin

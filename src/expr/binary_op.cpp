@@ -18,8 +18,8 @@ class ExprBinaryOperator::Impl {
 public:
     Impl(const std::string& name, const mccore::ConfigPtr& node)
         : func_(FUNCTION_BINARY_OPERATOR_FUNC_MAP.at(name)),
-          expr1_(createExpr(node->at(0))),
-          expr2_(createExpr(node->at(1))) {
+          expr1_(createSimpleExpr(node->at(0))),
+          expr2_(createSimpleExpr(node->at(1))) {
     }
 
     ~Impl() = default;
