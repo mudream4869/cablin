@@ -6,6 +6,16 @@
 
 A Cablin interpreter written in c-plus-plus.
 
+Cablin is archived and no longer actively maintained.
+
+Cablin started in 2020 as an experiment in GUI-based scripting for games, as well as a personal project to practice production-grade C++ design and development.
+
+While visual scripting and schema-driven approaches still have their uses, I've decided not to continue developing Cablin, especially with mature scripting languages and the rise of AI-assisted coding.
+
+This repository is preserved for historical and educational purposes. No further development, bug fixes, or compatibility updates are planned.
+
+Thank you for your interest in Cablin!
+
 ## How to build and execute examples
 
 ```bash
