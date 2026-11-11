@@ -6,7 +6,9 @@
 
 A Cablin interpreter written in c-plus-plus.
 
-Cablin is archived and no longer actively maintained.
+**Project Status: Archived**
+
+**Cablin is archived and no longer actively maintained.**
 
 Cablin started in 2020 as an experiment in GUI-based scripting for games, as well as a personal project to practice production-grade C++ design and development.
 
